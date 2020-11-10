@@ -245,11 +245,11 @@ function radar_visualization(config) {
       .style("stroke-width", 1);
     grid.append("text")
         .text(config.rings[i].name)
-        .attr("y", -rings[i].radius + 62)
+        .attr("y", -rings[i].radius + 32)
         .attr("text-anchor", "middle")
-        .style("fill", "#e5e5e5")
+        .style("fill", "#333333")
         .style("font-family", "Arial, Helvetica")
-        .style("font-size", 42)
+        .style("font-size", 14)
         .style("font-weight", "bold")
         .style("pointer-events", "none")
         .style("user-select", "none");
@@ -301,7 +301,7 @@ function radar_visualization(config) {
           .attr("transform", legend_transform(quadrant, ring))
           .text(config.rings[ring].name)
           .style("font-family", "Arial, Helvetica")
-          .style("font-size", "12")
+          .style("font-size", "11")
           .style("font-weight", "bold");
         legend.selectAll(".legend" + quadrant + ring)
           .data(segmented[quadrant][ring])
