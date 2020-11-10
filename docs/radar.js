@@ -243,8 +243,7 @@ function radar_visualization(config) {
       .style("fill", "none")
       .style("stroke", config.colors.grid)
       .style("stroke-width", 1);
-    if (config.print_layout) {
-      grid.append("text")
+    grid.append("text")
         .text(config.rings[i].name)
         .attr("y", -rings[i].radius + 62)
         .attr("text-anchor", "middle")
@@ -254,7 +253,6 @@ function radar_visualization(config) {
         .style("font-weight", "bold")
         .style("pointer-events", "none")
         .style("user-select", "none");
-    }
   }
 
   function legend_transform(quadrant, ring, index=null) {
@@ -270,7 +268,7 @@ function radar_visualization(config) {
   }
 
   // draw title and legend (only in print layout)
-  if (config.print_layout) {
+  
 
     // title
     radar.append("text")
@@ -319,7 +317,7 @@ function radar_visualization(config) {
               .on("mouseout", function(d) { hideBubble(d); unhighlightLegendItem(d); });
       }
     }
-  }
+  
 
   // layer for entries
   var rink = radar.append("g")
