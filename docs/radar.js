@@ -235,12 +235,13 @@ function radar_visualization(config) {
     .attr("in", "SourceGraphic");
 
   // draw rings
-  for (var i = 0; i < rings.length; i++) {
+  var ring_fill = 255;
+  for (var i = rings.length-1; i >=0 ; i--) {
     grid.append("circle")
       .attr("cx", 0)
       .attr("cy", 0)
       .attr("r", rings[i].radius)
-      .style("fill", "none")
+      .style("fill", "rgb("+ring_fill+","+ring_fill+","+ring_fill+")")
       .style("stroke", config.colors.grid)
       .style("stroke-width", 1);
     grid.append("text")
@@ -253,6 +254,7 @@ function radar_visualization(config) {
         .style("font-weight", "bold")
         .style("pointer-events", "none")
         .style("user-select", "none");
+    ring_fill = ring_fill -20;
   }
 
   function legend_transform(quadrant, ring, index=null) {
