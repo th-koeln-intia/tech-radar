@@ -256,10 +256,26 @@ function radar_visualization(config) {
   }
 
   function legend_transform(quadrant, ring, index=null) {
-    var dx = ring < 2 ? 0 : 120;
+    var dx = ring < 4 ? 0 : 160;
     var dy = (index == null ? -16 : index * 12);
+    /* Old code
     if (ring % 2 === 1) {
       dy = dy + 36 + segmented[quadrant][ring-1].length * 12;
+    }*/
+    if (ring == 1) {
+      dy = dy + 36 + segmented[quadrant][ring-1].length * 12;
+    }
+    if (ring == 2) {
+      dy = dy + 2*(36 + segmented[quadrant][ring-1].length * 12);
+    }
+    if (ring == 3) {
+      dy = dy + 3*(36 + segmented[quadrant][ring-1].length * 12);
+    }
+    if (ring == 5) {
+      dy = dy + 36 + segmented[quadrant][ring-1].length * 12;
+    }
+    if (ring == 6) {
+      dy = dy + 2*(36 + segmented[quadrant][ring-1].length * 12);
     }
     return translate(
       legend_offset[quadrant].x + dx,
@@ -296,13 +312,13 @@ function radar_visualization(config) {
         .text(config.quadrants[quadrant].name)
         .style("font-family", "Arial, Helvetica")
         .style("font-size", "18");
-      for (var ring = 0; ring < 4; ring++) {
+      for (var ring = 0; ring < 7; ring++) {
         legend.append("text")
-          .attr("transform", legend_transform(quadrant, ring))
-          .text(config.rings[ring].name)
-          .style("font-family", "Arial, Helvetica")
-          .style("font-size", "11")
-          .style("font-weight", "bold");
+        .attr("transform", legend_transform(quadrant, ring))
+        .text(config.rings[ring].name)
+        .style("font-family", "Arial, Helvetica")
+        .style("font-size", "11")
+        .style("font-weight", "bold");
         legend.selectAll(".legend" + quadrant + ring)
           .data(segmented[quadrant][ring])
           .enter()
