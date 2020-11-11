@@ -235,7 +235,7 @@ function radar_visualization(config) {
     .attr("in", "SourceGraphic");
 
   // draw rings
-  var ring_fill = 255;
+  var ring_fill = 245;
   for (var i = rings.length-1; i >=0 ; i--) {
     grid.append("circle")
       .attr("cx", 0)
