@@ -6,6 +6,7 @@
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="radar.js"></script>
+<script src="404.js"></script>
 
 <link rel="stylesheet" href="radar.css">
 </head>
@@ -26,137 +27,158 @@ radar_visualization({
   },
   title: "INTIA Method Radar",
   quadrants: [
-    { name: "Discover" },
-    { name: "Define" },
-    { name: "Develop" },
-    { name: "Deliver" }
+    { name: "Deliver" }, //0
+    { name: "Develop" }, //1
+    { name: "Discover" },//2
+    { name: "Define" }   //3
   ],
   rings: [
-    { name: "Entscheidungsmacht", color: "#93c47d" },
-    { name: "teilw. Entscheidungsmacht", color: "#93d2c2" },
-    { name: "Mitbestimmung", color: "#fbdb84" },
-    { name: "Einbeziehung", color: "#efafa9" },
-    { name: "Anhörung", color: "#857dc4" },
-    { name: "Information", color: "#efafa9" },
-    { name: "nicht beteiligt", color: "#efafa9" }
-  ],
-  print_layout: true,
+    { name: "Entscheidungsmacht", color: "#93c47d" },       //0
+    { name: "teilw. Entscheidungsmacht", color: "#93d2c2" },//1
+    { name: "Mitbestimmung", color: "#fbdb84" },            //2
+    { name: "Einbeziehung", color: "#efafa9" },             //3
+    { name: "Anhörung", color: "#857dc4" },                 //4
+    { name: "Information", color: "#efafa9" },              //5
+    { name: "nicht beteiligt", color: "#efafa9" }           //6
+  ],  
+  /*
+   color_code
+   - Established Method #93c47d
+   - New developed Method #93d2c2
+   - Method to be tested #fbdb84
+   - other #efafa9
+  */
+  print_layout: false,
   //zoomed_quadrant: 0,
   //ENTRIES
   entries: [
       {
-        quadrant: 0,
-        ring: 0,
+        quadrant: 2,
+        ring: 5,
         label: "Hospitation",
         active: true,
         link: "methods/hospitation.html",
-        moved: 0
+        moved: 0,
+        color_code: "#93c47d"
       },
       {
-        quadrant: 3,
-        ring: 1,
+        quadrant: 1,
+        ring: 3,
         label: "Workshops",
         active: true,
-        link: "methods/hospitation.html",
-        moved: 0
+        link: "404.html",
+        moved: 10,
+        color_code: "#93c47d"
       },
       {
-        quadrant: 3,
-        ring: 0,
+        quadrant: 2,
+        ring: 4,
         label: "Escape Game",
         active: true,
-        link: "methods/hospitation.html",
-        moved: 0
+        link: "404.html",
+        moved: 0,
+        color_code: "#93d2c2"
       },
       
       {
-        quadrant: 1,
-        ring: 0,
-        label: "Dummy",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
-      },
-      {
         quadrant: 2,
-        ring: 1,
-        label: "Dummy2",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
-      },
-      {
-        quadrant: 3,
-        ring: 2,
-        label: "Dummy3",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
-      },
-      {
-        quadrant: 0,
-        ring: 3,
-        label: "Dummy4",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
-      },
-      {
-        quadrant: 3,
-        ring: 4,
-        label: "Dummy5",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
-      },
-      {
-        quadrant: 3,
         ring: 5,
-        label: "Dummy6",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
-      },
-      {
-        quadrant: 1,
-        ring: 6,
-        label: "Dummy7",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
+        label: "Check-In",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93c47d"
       },
       {
         quadrant: 2,
-        ring: 0,
-        label: "Dummy8",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
-      },
-      {
-        quadrant: 1,
-        ring: 2,
-        label: "Dummy9",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
+        ring: 5,
+        label: "Warm-Ups",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93c47d"
       },
       {
         quadrant: 2,
         ring: 3,
-        label: "Dummy10",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
+        label: "Smiley Feedback",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93c47d"
       },
       {
-        quadrant: 3,
-        ring: 0,
-        label: "Dummy11",
-        active: false,
-        link: "methods/hospitations.html",
-        moved: 0
-      }
+        quadrant: 2,
+        ring: 3,
+        label: "Erfindungsmemory",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93c47d"
+      },
+      {
+        quadrant: 2,
+        ring: 3,
+        label: "Erfindungsskala",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93c47d"
+      },
+      {
+        quadrant: 2,
+        ring: 4,
+        label: "Interviews",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93c47d"
+      },
+      {
+        quadrant: 2,
+        ring: 4,
+        label: "„Stimmt oder Stimmt Nicht“",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93c47d"
+      },
+      {
+        quadrant: 2,
+        ring: 3,
+        label: "Der Superheld",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93c47d"
+      },
+      {
+        quadrant: 1,
+        ring: 2,
+        label: "Paper Function Mapping",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93d2c2"
+      },
+      {
+        quadrant: 1,
+        ring: 2,
+        label: "Behaviour-Driven Prototyping",
+        active: true,
+        link:  "404.html",
+        moved: 0,
+        color_code: "#93d2c2"
+      },
+      {
+        quadrant: 1,
+        ring: 4,
+        label: "Probe Kit",
+        active: true,
+        link: "404.html",
+        moved: 0,
+        color_code: "#93d2c2"
+      },
   ]
   //ENTRIES
 });

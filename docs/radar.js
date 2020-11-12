@@ -296,12 +296,55 @@ function radar_visualization(config) {
       .style("font-size", "34");
 
     // footer
+    radar.append("circle")
+      .attr("transform", translate(footer_offset.x, footer_offset.y-5))
+      .attr("r", 9)
+      .attr("fill", "#93c47d");
     radar.append("text")
-      .attr("transform", translate(footer_offset.x, footer_offset.y))
-      .text("▲ moved up     ▼ moved down")
+      .attr("transform", translate(footer_offset.x+10, footer_offset.y))
+      .text("Methode nach Lehrbuch")
+      //.text("▲ moved up     ▼ moved down")
       .attr("xml:space", "preserve")
       .style("font-family", "Arial, Helvetica")
-      .style("font-size", "10");
+      .style("font-size", "12")
+      .style("color","#93c47d");
+    radar.append("circle")
+      .attr("transform", translate(footer_offset.x, footer_offset.y+15))
+      .attr("r", 9)
+      .attr("fill", "#93d2c2");
+    radar.append("text")
+      .attr("transform", translate(footer_offset.x+10, footer_offset.y+20))
+      .text("Neu entwickelte/Stark adaptierte Methode")
+      //.text("▲ moved up     ▼ moved down")
+      .attr("xml:space", "preserve")
+      .style("font-family", "Arial, Helvetica")
+      .style("font-size", "12")
+      .style("color","#93d2c2");
+    radar.append("circle")
+      .attr("transform", translate(footer_offset.x, footer_offset.y+35))
+      .attr("r", 9)
+      .attr("fill", "#fbdb84");
+    radar.append("text")
+      .attr("transform", translate(footer_offset.x+10, footer_offset.y+40))
+      .text("Ungetestete Methode")
+      //.text("▲ moved up     ▼ moved down")
+      .attr("xml:space", "preserve")
+      .style("font-family", "Arial, Helvetica")
+      .style("font-size", "12")
+      .style("color","#fbdb84");
+    radar.append("circle")
+      .attr("transform", translate(footer_offset.x, footer_offset.y+55))
+      .attr("r", 9)
+      .attr("fill", "#efafa9");
+    radar.append("text")
+      .attr("transform", translate(footer_offset.x+10, footer_offset.y+60))
+      .text("Andere")
+      //.text("▲ moved up     ▼ moved down")
+      .attr("xml:space", "preserve")
+      .style("font-family", "Arial, Helvetica")
+      .style("font-size", "12")
+      .style("color","#efafa9");
+    
 
     // legend
     var legend = radar.append("g");
@@ -416,8 +459,6 @@ function radar_visualization(config) {
       blip = blip.append("a")
         .attr("xlink:href", d.link);
     }
-
-    // blip shape
     if (d.moved > 0) {
       blip.append("path")
         .attr("d", "M -11,5 11,5 0,-13 z") // triangle pointing up
@@ -429,12 +470,14 @@ function radar_visualization(config) {
     } else {
       blip.append("circle")
         .attr("r", 9)
-        .attr("fill", d.color);
+        .attr("fill", d.color_code);
     }
 
     // blip text
     if (d.active || config.print_layout) {
-      var blip_text = config.print_layout ? d.id : d.label.match(/[a-z]/i);
+      // Use always numbers
+      //var blip_text = config.print_layout ? d.id : d.label.match(/[a-z]/i);
+      var blip_text = d.id;
       blip.append("text")
         .text(blip_text)
         .attr("y", 3)
