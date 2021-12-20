@@ -120,8 +120,6 @@ export default class Segment {
       this.blips.push(new Blip(
         this,
         this.sector.RADAR.blip_id_counter++,
-        entry.sectorID,
-        entry.ringID,
         entry.stateID,
         entry.name,
         entry.active,

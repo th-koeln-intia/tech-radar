@@ -239,8 +239,8 @@ function drawRadar(){
   // make sure that blips stay inside their segment
   function ticked() {
     blips.attr(`transform`, (d) => rM.translate(
-      d.segment.segmentFunctions.clip(d).x, 
-      d.segment.segmentFunctions.clip(d).y
+      d.SEGMENT.segmentFunctions.clip(d).x, 
+      d.SEGMENT.segmentFunctions.clip(d).y
     ));
   }
   

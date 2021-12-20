@@ -36,6 +36,43 @@ Zu jedem Eintrag unter ``sectors`` in der Struktur-JSON, wird ein Sektor-Objekt 
 
 | Name | Type | Beschreibung |
 | -------- | -------- | -------- |      
-|  CONFIG | Object  | Objekt von der Konfiguration JSON-Datei  |
-|  CONFIG | Object  | Objekt von der Konfiguration JSON-Datei  |
-|  CONFIG | Object  | Objekt von der Konfiguration JSON-Datei  |
+|  RADAR | Object  | Vater Objekt  |
+|  id | Number  | Sektor ID  |
+|  name | String  | Sektor Name  |
+|  idText | String  | Sektor ID als Textform für HTML-Elemente (Zusammensetztung => `[RadarID]_sector[SectorID]`)   |
+|  buttonDiv | HTMLDivElement  | `<div>`-Tag des Sektor Buttons im Selektion Bereich des Radars  |
+|  svgGroup | Object  | SVG Gruppen Element im Radar  |
+|  legendDiv | HTMLDivElement  | `<div>`-Tag des Sektor, im Blip Legenden Bereich des Radars |
+|  startAngle | Number  | Start Winkel des Sektors, ab wie viel Grad beginnt der Sektor in einem Einheitskreis.  |
+|  endAngle | Number  | End Winkel des Sektors, bei wie viel Grad endet der Sektor in einem Einheitskreis.  |
+|  segments | Array  | Array aus Segment-Objekten, für jeden Eintrag in ``RADAR.rings`` wird ein Segment-Objekt erstellt  |
+
+
+### Segment-Objekt
+
+| Name | Type | Beschreibung |
+| -------- | -------- | -------- |      
+|  SEKTOR | Object  | Vater Objekt  |
+|  id | Number  | ID des Segments  |
+|  name | String  | Name/Titel des Segments/Rings  |
+|  idText | String  | Segment ID als Textform für HTML-Elemente (Zusammensetztung => `[SEKTOR.idText]_segment[SegmentID]`)  |
+|  svgGroup | Object  | SVG Gruppen Element im Radar  |
+|  segmentFunction | Object  | Beinhaltet zwei Funktionen, die Erste (`clip`) zum sicherstellen das Blips im Segment bleiben, die Zweite (`random`) um eine zufällige iniziierungs Position für Blips zu bekommen |
+|  polarMin | Object  | TODO  |
+|  polarMax | Object  | TODO  |
+|  blips | Array  | Array aus Blip-Objekten, TODO  |
+
+
+### Blip-Objekt
+
+| Name | Type | Beschreibung |
+| -------- | -------- | -------- |      
+|  SEGMENT | Object  | Vater Objekt  |
+|  id | Number  | ID des Blips  |
+|  lable | String  | Name/Label des Blips  |
+|  link | String  | Link zu einer Seite, die näheres zu dem Blip erklärt  |
+|  moved | Number  | Negativ = Blip ist ein Segment nach außen gewandert; 0 = Blip ist unverändert in diesem Segment geblieben; Positiv = Blip ist ein Segment nach inne gewandert  |
+|  x | Number  | x Koordinaten des Blips  |
+|  y | Number  | y Koordinaten des Blips  |
+|  stateID | Number  | Status des Blips  |
+

@@ -1,42 +1,40 @@
 import * as vMethods from "./visualMethods.js";
 
 export default class Blip {
-  constructor(segment, id, sectorID, ringID, stateID, lable, active, link, moved){
-    this.segment = segment;
+  constructor(segment, id, stateID, lable, active, link, moved){
+    this.SEGMENT = segment;
     this.id = id;
-    this.sectorID = sectorID;
-    this.ringID = ringID;
     this.stateID = stateID;
     this.label = lable;
     this.active = active;
     this.link = link;
     this.moved = moved;
 
-    this.radarConfig = this.segment.sector.RADAR.CONFIG;
+    this.radarConfig = this.SEGMENT.sector.RADAR.CONFIG;
 
     this.initPosition();
     this.configure();
   }
 
   initPosition(){
-    let obj = this.segment.segmentFunctions.random(this.segment.sector.RADAR.seed);
-    this.segment.sector.RADAR.seed = obj.seed;
+    let obj = this.SEGMENT.segmentFunctions.random(this.SEGMENT.sector.RADAR.seed);
+    this.SEGMENT.sector.RADAR.seed = obj.seed;
     this.x = obj.point.x;
     this.y = obj.point.y;
   }
 
   configure() {
-    let blip = d3.select(`#${this.segment.sector.radarID}_blip${this.id}`);
+    let blip = d3.select(`#${this.SEGMENT.sector.radarID}_blip${this.id}`);
     
     // add eventlisteners
     blip
       .on('mouseover', () => {
         vMethods.showBubble(this);
-        vMethods.highlitingLegendItem(this.id, this.segment.sector.radarID);
+        vMethods.highlitingLegendItem(this.id, this.SEGMENT.sector.radarID);
       })
       .on('mouseout', () => {
         vMethods.hideBubble();
-        vMethods.unhighlitingLegendItem(this.id, this.segment.sector.radarID);
+        vMethods.unhighlitingLegendItem(this.id, this.SEGMENT.sector.radarID);
       });    
 
     // add link to blip
@@ -47,8 +45,8 @@ export default class Blip {
     let blipSize = this.radarConfig.blip.size;
     let blipCircle = blip.append('circle').attr('r', blipSize/2);
     let blipCircleFillColor = ``;
-    (this.stateID >= 0 && this.stateID < this.segment.sector.RADAR.STRUCTURE.entryStates.length)
-      ? blipCircleFillColor = this.segment.sector.RADAR.STRUCTURE.entryStates[this.stateID].color
+    (this.stateID >= 0 && this.stateID < this.SEGMENT.sector.RADAR.STRUCTURE.entryStates.length)
+      ? blipCircleFillColor = this.SEGMENT.sector.RADAR.STRUCTURE.entryStates[this.stateID].color
       : blipCircleFillColor = this.radarConfig.blip.defaultColor;
     blipCircle.attr('fill', blipCircleFillColor);
 
