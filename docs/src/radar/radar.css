@@ -148,7 +148,7 @@
   }
   .bubbleText {
     font-family: var(--primaryFontFamily);
-    font-size: 10px;
+    /* font-size: 10px; */
     fill: var(--secondaryFondColor);
   }
   

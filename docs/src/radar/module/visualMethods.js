@@ -1,21 +1,18 @@
 import * as rM from "./RadarMath.js";
 
 export function showBubble(blip){
-  // if (blip.active || CONFIG.print_layout) {
-  if (blip.active) {
-      var tooltip = d3.select('#bubble text').text(blip.label);
-      var bbox = tooltip.node().getBBox();
-      d3.select('#bubble')
-        .attr('transform', rM.translate(blip.x - bbox.width / 2, blip.y - 16))
-        .style('opacity', 0.8);
-      d3.select('#bubble rect')
-        .attr('x', -5)
-        .attr('y', -bbox.height)
-        .attr('width', bbox.width + 10)
-        .attr('height', bbox.height + 4);
-      d3.select('#bubble path')
-        .attr('transform', rM.translate(bbox.width / 2 - 5, 3));
-  }
+  var tooltip = d3.select('#bubble text').text(blip.name);
+  var bbox = tooltip.node().getBBox();
+  d3.select('#bubble')
+    .attr('transform', rM.translate(blip.x - bbox.width / 2, blip.y - 16))
+    .style('opacity', 0.8);
+  d3.select('#bubble rect')
+    .attr('x', -5)
+    .attr('y', -bbox.height)
+    .attr('width', bbox.width + 10)
+    .attr('height', bbox.height + 4);
+  d3.select('#bubble path')
+    .attr('transform', rM.translate(bbox.width / 2 - 5, 3));
 }
 export function hideBubble(){
   d3.select('#bubble')

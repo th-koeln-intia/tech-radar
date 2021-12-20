@@ -23,9 +23,3 @@ blip:
   size: 28
   defaultColor: '#8395a7'
   margin: 1
-
-blipRadius: 9
-blipMarginToBorders: 4
-blipInactiveColor: "#ddd"
-    
-print_layout: false

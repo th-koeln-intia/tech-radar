@@ -4,17 +4,12 @@ import Segment from "./Segment.js";
 export default class Sector { 
   constructor(RADAR, id, name, color, startAngle, endAngle) {
     this.RADAR = RADAR;
-    this.radarID = RADAR.CONFIG.radar.id;
     this.id = id;
-    this.IdText = `${this.radarID}_sector${this.id}`;
+    this.IdText = `${this.RADAR.CONFIG.radar.id}_sector${this.id}`;
     this.name = name;
     this.color = color;
     this.startAngle = startAngle;
     this.endAngle = endAngle;
-    //radialMin/radialMax are multiples of PI
-    this.radialMin = rM.toRadians(this.startAngle) / Math.PI;
-    this.radialMax = rM.toRadians(this.endAngle) / Math.PI;
-    //calc each segment of sektor
     this.segments = [];       
     
     this.createSelectionButton();
@@ -25,7 +20,7 @@ export default class Sector {
   }
 
   createSelectionButton(){
-    let selectionDiv = document.getElementById(`${this.radarID}_selectionDiv`);
+    let selectionDiv = document.getElementById(`${this.RADAR.CONFIG.radar.id}_selectionDiv`);
     this.buttonDiv = document.createElement(`div`);
     this.buttonDiv.id = `${this.RADAR.NAME}_selectionButton` + (this.id);
     this.buttonDiv.classList.add(`selectionButton`);
@@ -37,7 +32,7 @@ export default class Sector {
     selectionDiv.appendChild(this.buttonDiv);
   }
   createSvgGroup(){
-    let radarContent = d3.select(`g#${this.radarID}_radarContent`);
+    let radarContent = d3.select(`g#${this.RADAR.CONFIG.radar.id}_radarContent`);
     this.svgGroup = radarContent.append(`g`)
       .attr(`id`, `${this.IdText}`)
       .attr(`class`, `radarSector`)
@@ -49,9 +44,9 @@ export default class Sector {
     this.RADAR.CONFIG.sector.showHeadline ? this.appendHeadline(this.svgGroup) : null;
   }
   createBlipLegendDiv(){
-    let blipLegendDiv = document.getElementById(`${this.radarID}_blipLegendDiv`);
+    let blipLegendDiv = document.getElementById(`${this.RADAR.CONFIG.radar.id}_blipLegendDiv`);
     this.legendDiv = document.createElement(`div`);
-    this.legendDiv.id = `${this.radarID}_sectorLegend${this.id}`;
+    this.legendDiv.id = `${this.RADAR.CONFIG.radar.id}_sectorLegend${this.id}`;
     this.legendDiv.classList.add(`sectorDiv`); 
     this.legendDiv.addEventListener(`mouseover`, ()=> this.RADAR.show_sector < 0 ? this.highlight() : null);
     this.legendDiv.addEventListener(`mouseout`, ()=> this.RADAR.show_sector < 0 ? this.unhighlight() : null); 
@@ -60,14 +55,6 @@ export default class Sector {
     legendSectorHeadline.innerText = this.name;
     this.legendDiv.appendChild(legendSectorHeadline);  
     blipLegendDiv.appendChild(this.legendDiv);  
-  }
-
-  getBlips() {
-    let blips = [];
-    for(let segment of this.segments) 
-      for(let blip of segment.blips) 
-        blips.push(blip);
-    return blips;
   }
 
   appendHeadline() {
@@ -90,45 +77,35 @@ export default class Sector {
   }
 
   highlight(){
-    let radarID = this.RADAR.CONFIG.radar.id;
-    let svg = d3.select(`svg#${radarID}_SVG`);
+    let svg = d3.select(`svg#${this.RADAR.CONFIG.radar.id}_SVG`);
     // lower opacity of all sectors first, then rise the opacity of sector to be highlighted
     svg.selectAll(`.radarSector`).style('opacity', 0.2);
-    let sector = svg.select(`g#${radarID}_sector${this.id}`).style('opacity', 1);
+    let sector = svg.select(`g#${this.IdText}`).style('opacity', 1);
     
     // hide all ringHeadlines and show the segmentHeadlines of sector to be highlighted
     svg.selectAll(`.ringHeadline`).attr(`display`, `none`);
     sector.selectAll(`.segmentHeadline`).attr(`display`, `block`);
   }
   unhighlight(){
-    let radarID = this.RADAR.CONFIG.radar.id;
-    let svg = d3.select(`svg#${radarID}_SVG`);
+    let svg = d3.select(`svg#${this.RADAR.CONFIG.radar.id}_SVG`);
     svg.selectAll(`.radarSector`).style('opacity', 1);
     svg.selectAll(`.ringHeadline`).attr(`display`, `block`);
     svg.selectAll(`.segmentHeadline`).attr(`display`, `none`);
   }
 
-  calcSegments() {
+  calcSegments(){
     this.RADAR.rings.forEach((ring, index) => {
       let polarMin = {
-        pi: this.radialMin * Math.PI,
+        angle: this.startAngle,
         radius: (index === 0) 
           ? this.RADAR.CONFIG.segment.firstMinRadiusPixel 
-          : this.RADAR.rings[index - 1].radius
+          : this.RADAR.rings[index-1].radius
       };
       let polarMax = {
-        pi: this.radialMax * Math.PI,
+        angle: this.endAngle,
         radius: ring.radius,
       };
-      this.segments.push(
-        new Segment(
-          this,
-          index,
-          ring.name,
-          polarMin,
-          polarMax
-        )
-      );
+      this.segments.push(new Segment(this, index, ring.name, polarMin, polarMax));
     });
   }
 }

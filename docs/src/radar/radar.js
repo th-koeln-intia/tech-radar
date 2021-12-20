@@ -234,7 +234,7 @@ function drawRadar(){
   blips.each((blip) => blip.configure());
 
   // create a bubble for the tooltip for each blip
-  let bubble = new Bubble(radarGroup);
+  let bubble = new Bubble(RADAR, radarGroup);
 
   // make sure that blips stay inside their segment
   function ticked() {
