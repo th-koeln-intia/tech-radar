@@ -5,7 +5,7 @@ radar:
   renderResolution: 1000  
 
 sector:
-  useColor: true
+  useColor: false
   showHeadline: true
 
 segment: 

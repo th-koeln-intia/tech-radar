@@ -5,7 +5,7 @@ entries:
     stateID: 2
     active: true
     link: "/intiaRadar_Pages/hospitation.html"
-    moved: 0
+    moved: -1
   - name: "Workshops"
     sectorID: 1
     ringID: 3
@@ -16,10 +16,10 @@ entries:
   - name: "Escape Game"
     sectorID: 2
     ringID: 4
-    stateID: 0
+    stateID: 1
     active: true
     link: "404.html"
-    moved: 0
+    moved: 1
   - name: "Check-In"
     sectorID: 2
     ringID: 5

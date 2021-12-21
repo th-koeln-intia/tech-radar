@@ -26,10 +26,10 @@ rings:
 
 entryStates:
   - name: 'Methode nach Lehrbuch'
-    color: '#93c47d'
+    color: '#10ac84'
   - name: 'Neu entwickelte/Stark adaptierte Methode'
-    color: '#93D2C2'
+    color: '#2e86de'
   - name: 'Ungetestete Methode'
-    color: '#fbdb84'
+    color: '#ff9f43'
   - name: 'Andere'
-    color: '#efafa9'
+    color: '#ee5253'

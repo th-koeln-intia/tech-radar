@@ -1,4 +1,5 @@
 import * as vMethods from "./visualMethods.js";
+import * as rM from "./RadarMath.js";
 
 export default class Blip {
   constructor(segment, id, stateID, name, link, moved){
@@ -36,35 +37,52 @@ export default class Blip {
 
     // add link to blip
     blip = blip.append('a').attr('xlink:href', this.link);
-  
-    // add circle  
+
+    // create blip background
+    let blipCircleFillColor = (this.stateID >= 0 && this.stateID < this.SEGMENT.SECTOR.RADAR.STRUCTURE.entryStates.length)
+      ? d3.hsl(this.SEGMENT.SECTOR.RADAR.STRUCTURE.entryStates[this.stateID].color)
+      : d3.hsl(this.SEGMENT.SECTOR.RADAR.CONFIG.blip.defaultColor);
+
     let blipSize = this.SEGMENT.SECTOR.RADAR.CONFIG.blip.size;
-    let blipCircle = blip.append('circle').attr('r', blipSize/2);
-    let blipCircleFillColor = ``;
-    (this.stateID >= 0 && this.stateID < this.SEGMENT.SECTOR.RADAR.STRUCTURE.entryStates.length)
-      ? blipCircleFillColor = this.SEGMENT.SECTOR.RADAR.STRUCTURE.entryStates[this.stateID].color
-      : blipCircleFillColor = this.SEGMENT.SECTOR.RADAR.CONFIG.blip.defaultColor;
-    blipCircle.attr('fill', blipCircleFillColor);
+    let blipStrokeWidth = blipSize*0.1;
+    let blipRingRadius = blipSize*0.5 - blipStrokeWidth*0.5;
+
+    // add ring around blip
+    let blipRingColor = d3.hsl(blipCircleFillColor);
+    if(this.moved != 0) {
+      blipRingColor.l = blipRingColor.l * 1.1;
+      blipRingColor.opacity = 0.55;
+    }
+    blip.append(`circle`)
+      .attr(`r`, blipRingRadius)
+      .attr(`fill`, `none`)
+      .attr(`stroke-width`, blipStrokeWidth)
+      .attr(`stroke`, blipRingColor);
+
+    // add arc on ring
+    if(this.moved != 0){
+      let arc = (this.moved < 0)
+        ? rM.describeArc(this.SEGMENT.SECTOR.startAngle, this.SEGMENT.SECTOR.endAngle, blipRingRadius)
+        : rM.describeArc(this.SEGMENT.SECTOR.startAngle +180, this.SEGMENT.SECTOR.endAngle +180, blipRingRadius);
+      blip.append(`path`)
+        .attr(`d`, arc)
+        .attr(`fill`, `none`)
+        .attr(`stroke-width`, blipStrokeWidth)
+        .attr(`stroke`, blipCircleFillColor);
+    }
+
+    // add inner circle
+    blip.append('circle')
+      .attr('r', blipSize*0.7/2)
+      .attr('fill', blipCircleFillColor); 
 
     // add id as text in the middle, textSize oriented at configured blipSize
-    let fontSize = blipSize/2;
+    let fontSize = blipSize*0.33;
     blip.append('text')
       .attr('class', 'blipText')
       .attr('y', fontSize/3)
       .attr('text-anchor', 'middle')
       .style(`font-size`, fontSize)
-      .text(this.id);
-    
-    // if (this.moved > 0) {
-    //   blip.append('path')
-    //     .attr('d', 'M -11,5 11,5 0,-13 z') // triangle pointing up
-    //     .style('fill', this.color);
-    // } else if (this.moved < 0) {
-    //   blip.append('path')
-    //     .attr('d', 'M -11,-5 11,-5 0,13 z') // triangle pointing down
-    //     .style('fill', this.color);
-    // } 
-
-    
+      .text(this.id);    
   }
 }
