@@ -73,7 +73,7 @@ export default class Blip {
 
     // add inner circle
     blip.append('circle')
-      .attr('r', blipSize*0.7/2)
+      .attr('r', blipSize*0.75/2)
       .attr('fill', blipCircleFillColor); 
 
     // add id as text in the middle, textSize oriented at configured blipSize

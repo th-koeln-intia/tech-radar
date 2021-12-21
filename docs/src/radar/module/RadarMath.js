@@ -103,20 +103,10 @@ export function pointByAngleAndRadius(angle, radius) {
 
 export function describeArc(startAngle, endAngle, radius){
   let startPoint = pointByAngleAndRadius(startAngle, radius);
-  let endPoint = pointByAngleAndRadius(endAngle, radius);
+  let endPoint = pointByAngleAndRadius(endAngle, radius); 
   return [
     'M', startPoint.x, startPoint.y,
     'A', radius, radius, 0, 0, 1, endPoint.x, endPoint.y,
-  ].join(' ');
-}
-
-export function describeSectorOutlines(startPoint, endPoint, radius){
-  return [
-    'M', startPoint.x, startPoint.y,
-    'A', radius, radius, 0, 0, 1, endPoint.x, endPoint.y,
-    'M 0 0 L', startPoint.x, startPoint.y, //startLine
-    'M 0 0 L', endPoint.x, endPoint.y, //endLine
-    'Z',
   ].join(' ');
 }
 

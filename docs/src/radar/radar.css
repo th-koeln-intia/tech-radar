@@ -170,7 +170,9 @@
   /* border-radius: var(--borderRadius); */
   border-bottom-left-radius: var(--borderRadius);
   border-bottom-right-radius: var(--borderRadius);
-  padding: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-bottom: 0.5rem;
 
 
   /* display: grid;
@@ -182,7 +184,7 @@
   font-family: var(--primaryFontFamily);
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 4px;
+  user-select: none;
 }
 .radarLegendDiv .headline .toggle{
   float: right;

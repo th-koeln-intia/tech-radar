@@ -20,6 +20,6 @@ segment:
   padding: 2
 
 blip:
-  size: 28
+  size: 30
   defaultColor: '#8395a7'
   margin: 1

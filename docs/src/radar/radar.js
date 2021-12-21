@@ -140,11 +140,23 @@ function fillSelectionDiv(){
   };
   selectionDiv.appendChild(allButton); 
 }
+
+function displayLegendContent(){
+  let legendContentDiv = document.getElementById(`${RADAR.NAME}_legendContent`);
+  (legendContentDiv.style.display === `grid`)
+    ? legendContentDiv.style.display = `none`
+    : legendContentDiv.style.display = `grid`;
+
+  console.log(legendContentDiv);
+}
+
 function fillLegendDiv(){
   let legendDiv = document.getElementById(`${RADAR.NAME}_legendDiv`);
   let headline = createTag(`div`, null, `headline`, `Legende`);
+  headline.onclick = () => displayLegendContent();
   legendDiv.appendChild(headline);  
   let content = createTag(`div`, `${RADAR.NAME}_legendContent`, `content`, null);
+  content.style.display = 'none';
 
   let entryStatesDiv = createTag(`div`, `${RADAR.NAME}_entryStatesDiv`, `entryStatesDiv`, null);
   let entryStatesHeadline = createTag(`div`, null, `subHeadline`, `States`); 
@@ -222,8 +234,8 @@ function drawRadar(){
     let ringHeadlineID = `${RADAR.CONFIG.radar.id}_ring${segment.id}`;
       vMethods.appendCurvedHeadline(
         headlineGroup, 
-        185, 
-        355, 
+        180, 
+        0, 
         middleRadius -3, 
         segment.name, 
         ringHeadlineID);
@@ -232,6 +244,7 @@ function drawRadar(){
 
   let blips = d3.selectAll(`.blip`);
   blips.each((blip) => blip.configure());
+
 
   // create a bubble for the tooltip for each blip
   let bubble = new Bubble(RADAR, radarGroup);
