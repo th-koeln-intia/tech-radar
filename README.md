@@ -11,5 +11,5 @@ Radar](http://zalando.github.io/tech-radar/), in diesem veröffentlicht Zalando 
 Entwickelt wurde das Radar im Rahmen des Forschungsprojekt [INTIA](https://dites.web.th-koeln.de/forschung/projekte/intia/), um Methoden nach dem Grad der Partizipation kategorisiert in form eines Radars darzustellen.
 
 
-Die umfassende Dokumentation ist [hier](flnkln.github.io) zu finden.
+Die umfassende Dokumentation ist [hier](https://flnkln.github.io) zu finden.
 
