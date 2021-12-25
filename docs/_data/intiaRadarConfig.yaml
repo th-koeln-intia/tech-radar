@@ -1,7 +1,7 @@
 radar:
-  id: "intiaRadar"
-  headline: "INTIA Method Radar"
-  defaultColor: "rgba(255, 255, 255, 0)"
+  id: 'intiaRadar'
+  headline: 'INTIA Method Radar'
+  defaultColor: 'rgba(255, 255, 255, 0)'
   renderResolution: 1000  
 
 sector:

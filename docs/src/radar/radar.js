@@ -53,7 +53,8 @@ export function createRadar(config, entries, structure){
   };
 
   // logRadar();
-  init();      
+  init();     
+  
 }
 
 function init(){
@@ -71,37 +72,39 @@ function update(){
   displayRadarSectors();
   displayBlipLegend();
   changeSvgViewBox();
-  displaySelection();
+  // displaySelection();
+  displaySelectAllButton();
   displayRingOrSegmentHeadline();
 }
 
 function createRadarDivStructure(){
-  let radarHeadlineDiv = document.createElement(`div`);
-  radarHeadlineDiv.id = `${RADAR.NAME}_headlineDiv`;
-  radarHeadlineDiv.classList.add(`radarHeadlineDiv`);
-  radarHeadlineDiv.innerText = RADAR.CONFIG.radar.headline;
+  let radarDiv = d3.select(`div#${RADAR.NAME}`);
 
-  let radarSelectionDiv = document.createElement(`div`);
-  radarSelectionDiv.id = `${RADAR.NAME}_selectionDiv`;
-  radarSelectionDiv.classList.add(`radarSelectionDiv`);
+  // append div for headline
+  radarDiv.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_headlineDiv`)
+    .attr(`class`, `radarHeadlineDiv`)
+    .text(RADAR.CONFIG.radar.headline);
 
-  let radarSvgDiv = document.createElement(`div`);
-  radarSvgDiv.id = `${RADAR.NAME}_svgDiv`;
-  radarSvgDiv.classList.add(`radarSvgDiv`);
+  // append div for selection
+  radarDiv.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_selectionDiv`)
+    .attr(`class`, `radarSelectionDiv`);
 
-  let legendDiv = document.createElement(`div`);
-  legendDiv.id = `${RADAR.NAME}_legendDiv`;
-  legendDiv.classList.add(`radarLegendDiv`);
+  // append div to create the svg in
+  radarDiv.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_svgDiv`)
+    .attr(`class`, `radarSvgDiv`);
 
-  let blipLegendDiv = document.createElement(`div`);
-  blipLegendDiv.id = `${RADAR.NAME}_blipLegendDiv`;
-  blipLegendDiv.classList.add(`radarBlipLegendDiv`);
+  // append div for legend
+  radarDiv.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_legendDiv`)
+    .attr(`class`, `radarLegendDiv`);
 
-  RADAR.DIV.appendChild(radarHeadlineDiv);
-  RADAR.DIV.appendChild(radarSelectionDiv);
-  RADAR.DIV.appendChild(radarSvgDiv);
-  RADAR.DIV.appendChild(legendDiv);
-  RADAR.DIV.appendChild(blipLegendDiv);
+  // append div for blipLegend
+  radarDiv.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_blipLegendDiv`)
+    .attr(`class`, `radarBlipLegendDiv`);
 }
 
 function initSVG(){
@@ -121,24 +124,17 @@ function initSVG(){
 
 }
 
-
-
 function fillDivStructure(){
-  fillSelectionDiv();
+  appendSelectAllButton();
   fillLegendDiv();
 }
-function fillSelectionDiv(){
-  let selectionDiv = document.getElementById(`${RADAR.NAME}_selectionDiv`);
-
-  let allButton = document.createElement(`div`);
-  allButton.id = `${RADAR.NAME}_selectionButton`;
-  allButton.classList.add(`selectionButton`);
-  allButton.innerText = `Alle Sectoren`
-  allButton.onclick = () => {
-    RADAR.show_sector = -1;
-    update();
-  };
-  selectionDiv.appendChild(allButton); 
+function appendSelectAllButton(){
+  let selectionDiv = d3.select(`div#${RADAR.NAME}_selectionDiv`);
+  selectionDiv.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_selectionButton`)
+    .attr(`class`, `selectionButton`)
+    .text(`Alle Sektoren`)
+    .on(`click`, ()=>{RADAR.show_sector = -1; update();})
 }
 
 function displayLegendContent(){
@@ -146,58 +142,56 @@ function displayLegendContent(){
   (legendContentDiv.style.display === `grid`)
     ? legendContentDiv.style.display = `none`
     : legendContentDiv.style.display = `grid`;
-
-  console.log(legendContentDiv);
 }
 
 function fillLegendDiv(){
-  let legendDiv = document.getElementById(`${RADAR.NAME}_legendDiv`);
-  let headline = createTag(`div`, null, `headline`, `Legende`);
-  headline.onclick = () => displayLegendContent();
-  legendDiv.appendChild(headline);  
-  let content = createTag(`div`, `${RADAR.NAME}_legendContent`, `content`, null);
-  content.style.display = 'none';
+  let legendDiv = d3.select(`div#${RADAR.NAME}_legendDiv`);
+  console.log(legendDiv)
+  // append headline text
+  legendDiv.append(`div`)
+    .attr(`class`, `headline`)
+    .text(`Legende`)
+    .on(`click`, ()=> displayLegendContent());
+  // append content div
+  let content = legendDiv.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_legendContent`)
+    .attr(`class`, `content`)
+    .style(`display`, `none`)
 
-  let entryStatesDiv = createTag(`div`, `${RADAR.NAME}_entryStatesDiv`, `entryStatesDiv`, null);
-  let entryStatesHeadline = createTag(`div`, null, `subHeadline`, `States`); 
-  entryStatesDiv.appendChild(entryStatesHeadline);
+  // #region append and fill entryStatesDiv
+  let entryStatesDiv = content.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_entryStatesDiv`)
+    .attr(`class`, `entryStatesDiv`);
+  entryStatesDiv.append(`div`)
+    .attr(`class`, `subHeadline`)
+    .text(`Zustände`);
+
   RADAR.STRUCTURE.entryStates.forEach((state) => {
-    let stateDiv = createTag(`div`, null, `stateDiv`, null);
-
-    let circle = createTag(`span`, null, `colorCode`, null);
-    circle.style.backgroundColor = state.color;
-
-    let text = createTag(`span`, null, `text`, state.name);
-
-    stateDiv.appendChild(circle);
-    stateDiv.appendChild(text);
-    entryStatesDiv.appendChild(stateDiv);
+    let stateDiv = entryStatesDiv.append(`div`)
+      .attr(`class`, `stateDiv`);
+    stateDiv.append(`div`)
+      .attr(`class`, `colorCode`)
+      .style(`background-color`, state.color);
+    stateDiv.append(`div`)
+      .attr(`class`, `text`)
+      .text(state.name);
   });
+  // #endregion
 
-
-  let ringLegendDiv = document.createElement(`div`);
-  ringLegendDiv.id = `${RADAR.NAME}_ringLegendDiv`;
-  ringLegendDiv.classList.add(`ringLegendDiv`);
-  
-  let ringLegendHeadline = document.createElement(`div`); 
-  ringLegendHeadline.classList.add(`subHeadline`);
-  ringLegendHeadline.innerText = `Ringe/Segmente`;
-  ringLegendDiv.appendChild(ringLegendHeadline);
-
-  // let hr = document.createElement(`hr`);
-  // ringLegendDiv.appendChild(hr);
+  // #region append and fill ringLegendDiv
+  let ringLegendDiv = content.append(`div`)
+    .attr(`id`, `${RADAR.NAME}_ringLegendDiv`)
+    .attr(`class`, `ringLegendDiv`);
+  ringLegendDiv.append(`div`)
+    .attr(`class`, `subHeadline`)
+    .text(`Ringe/Segmente`);
 
   RADAR.STRUCTURE.rings.forEach((ring, index) => {
-    let ringDiv = document.createElement(`div`);
-    ringDiv.classList.add(`text`);
-    ringDiv.innerText = `${index}. ${ring.name}`;
-
-    ringLegendDiv.appendChild(ringDiv);
+    ringLegendDiv.append(`div`)
+      .attr(`class`, `text`)
+      .text(`${index}. ${ring.name}`);
   });
-  content.appendChild(entryStatesDiv);
-  content.appendChild(ringLegendDiv);
-
-  legendDiv.appendChild(content);
+  // #endregion
 }
 
 function calculatingRadar() {
@@ -299,14 +293,9 @@ function displayBlipLegend(){
   });
 }
 
-function displaySelection(){
-  let selectionDivs = RADAR.DIV.getElementsByClassName(`selectionButton`);  
-  Array.prototype.forEach.call(selectionDivs, (element) =>{
-    (element.id === `${RADAR.NAME}_selectionButton` && MOBILE)
-      ? element.style.display = `none`
-      : element.style.display = `block`;
-  });
-}
+let displaySelectAllButton = () =>
+  d3.select(`div#${RADAR.NAME}_selectionButton`).style(`display`, MOBILE ? `none` : `block`);
+
 function displayRingOrSegmentHeadline(){
   let svg = d3.select(`svg#${RADAR.NAME}_SVG`);
   if (RADAR.show_sector>=0){
@@ -316,20 +305,4 @@ function displayRingOrSegmentHeadline(){
     svg.selectAll(`.ringHeadline`).attr(`display`, `block`);
     svg.selectAll(`.segmentHeadline`).attr(`display`, `none`);
   }
-}
-
-
-
-function createTag(tag, id, className, innerText){
-  let htmlTag = document.createElement(tag);
-  id === false
-    ? null
-    : htmlTag.id = id;
-  className === null 
-    ? null
-    : htmlTag.classList.add(className);
-  innerText === null  
-    ? null
-    : htmlTag.innerText = innerText;  
-  return htmlTag;
 }
