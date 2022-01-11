@@ -1,0 +1,25 @@
+radar:
+  id: 'intiaRadar'
+  headline: 'INTIA Method Radar'
+  defaultColor: 'rgba(255, 255, 255, 0)'
+  renderResolution: 1000  
+
+sector:
+  useColor: false
+  showHeadline: true
+
+segment: 
+  colorGradient: false
+  colorGradientLigther: true
+  colorLigthnessMin: 0.4
+  colorLigthnessMax: 0.8
+  showHeadline: true
+  useIdAsHeadline: true
+  firstSegmentRadiusPercent: 0.25
+  firstMinRadiusPixel: 9
+  padding: 2
+
+blip:
+  size: 30
+  defaultColor: '#8395a7'
+  margin: 1

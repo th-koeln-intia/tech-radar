@@ -1,0 +1,153 @@
+entries:
+  - name: 'Hospitation'
+    sectorID: 2
+    ringID: 5
+    stateID: 2
+    active: true
+    link: '/intiaRadar_Pages/hospitation.html'
+    moved: -1
+  - name: 'Workshops'
+    sectorID: 1
+    ringID: 3
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Escape Game'
+    sectorID: 2
+    ringID: 4
+    stateID: 1
+    active: true
+    link: '404.html'
+    moved: 1
+  - name: 'Check-In'
+    sectorID: 2
+    ringID: 5
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Warm-Ups'
+    sectorID: 2
+    ringID: 5
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Smiley Feedback'
+    sectorID: 2
+    ringID: 3
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Erfindungsmemory'
+    sectorID: 2
+    ringID: 3
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Erfindungsskala'
+    sectorID: 2
+    ringID: 3
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Interviews'
+    sectorID: 2
+    ringID: 4
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Stimmt oder Stimmt Nicht'
+    sectorID: 2
+    ringID: 4
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Der Superheld'
+    sectorID: 2
+    ringID: 3
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Paper Function Mapping'
+    sectorID: 1
+    ringID: 2
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Behaviour-Driven Prototyping'
+    sectorID: 1
+    ringID: 2
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  - name: 'Probe Kit'
+    sectorID: 1
+    ringID: 4
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+
+
+    
+  - name: 'Probe Kit'
+    sectorID: 0
+    ringID: 2
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+
+  - name: 'Probe Kit'
+    sectorID: 0
+    ringID: 2
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+
+  - name: 'Probe Kit'
+    sectorID: 0
+    ringID: 2
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+
+  - name: 'Probe Kit'
+    sectorID: 0
+    ringID: 2
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+
+  - name: 'Probe Kit'
+    sectorID: 0
+    ringID: 2
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+
+  - name: 'Probe Kit'
+    sectorID: 0
+    ringID: 2
+    stateID: 0
+    active: true
+    link: '404.html'
+    moved: 0
+  
+  
+  
+
