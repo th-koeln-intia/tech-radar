@@ -13,7 +13,8 @@ colors:
 
     <header class="post-header">
       <script src="https://d3js.org/d3.v4.min.js"></script> 
-      <script src="https://raw.githubusercontent.com/flnkln/flnkln.github.io/master/docs/src/radar/radar.js"></script>
+      <!-- <script src="https://raw.githubusercontent.com/flnkln/flnkln.github.io/master/docs/src/radar/radar.js"></script> -->
+      <script src="/src/radar/radar.js"></script>
       <link rel="stylesheet" href="/src/radar/radar.css" />
     </header>
   
@@ -21,14 +22,11 @@ colors:
 
       <div id="intiaRadar"></div>
       
-      <script type="module">
-        
-        var config = {{ site.data.intiaRadarConfig | jsonify }};
-        var entries = {{ site.data.intiaRadarEntries | jsonify }};
-        var structure = {{ site.data.intiaRadarStructure | jsonify }};
-
-        console.log({{site.data.intiaRadar_Pages | jsonify }});
-        import {createRadar} from "/src/radar/radar.js";
+      <script>
+        let config = {{ site.data.intiaRadarConfig | jsonify }};
+        let entries = {{ site.data.intiaRadarEntries | jsonify }};
+        let structure = {{ site.data.intiaRadarStructure | jsonify }};
+       
         createRadar(config, entries, structure);
       </script>
       
