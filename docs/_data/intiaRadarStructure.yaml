@@ -7,6 +7,8 @@ sectors:
     color: '#9b59b6'
   - name: 'Define'
     color: '#f1c40f'
+  - name: 'Define'
+    color: '#f1c40f'
   
 rings:
   - name: 'Entscheidungsmacht'
@@ -33,3 +35,8 @@ entryStates:
     color: '#ff9f43'
   - name: 'Andere'
     color: '#ee5253'
+
+entryMovement:
+  - name: 'IN'
+  - name: 'OUT'
+  - name: 'NONE'

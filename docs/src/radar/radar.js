@@ -8,10 +8,7 @@
 /* 
 all occurring angles are in radian 
 */
-function createRadar(config, entries, structure){
-    
-
-    
+function createRadar(config, entries, structure){   
     const 
         radarId = config.radar.id,
         diameter = config.radar.renderResolution,
@@ -33,7 +30,7 @@ function createRadar(config, entries, structure){
         update();
     }
 
-    //#region radar helper functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //#region radar helper functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     let translate = (x, y) => `translate(${x}, ${y})`;
     /*-------------------------------------------------------------------
     custom random number generator, to make random sequence reproducible
@@ -95,7 +92,7 @@ function createRadar(config, entries, structure){
                 segment.blipMinRadius,
                 segment.blipMaxRadius
             );
-            blip.x = pointByAngleAndRadius(pointInRadiusInterval.angle, pointInRadiusInterval.radius).x; // adjust data too!
+            blip.x = pointByAngleAndRadius(pointInRadiusInterval.angle, pointInRadiusInterval.radius).x;
             blip.y = pointByAngleAndRadius(pointInRadiusInterval.angle, pointInRadiusInterval.radius).y;
             return { x: blip.x, y: blip.y };
         },
@@ -119,18 +116,38 @@ function createRadar(config, entries, structure){
         ].join(' ');
     }
 
+    let arcOuterLine = (segment) => {
+        const radius = segment.outerRadius + 6;
+        const startPoint = pointByAngleAndRadius(segment.startAngle, radius);
+        const endPoint = pointByAngleAndRadius(segment.endAngle, radius);        
+        return [
+            'M', startPoint.x, startPoint.y,
+            'A', radius, radius, 0, 0, 1, endPoint.x, endPoint.y
+          ].join(' ');
+    }
+
     let getSectorColorPalette = (colorCode) => {
-        let colorStart = d3.rgb(config.radar.defaultColor),
-            colorEnd = d3.rgb(config.radar.defaultColor);        
-        if(config.sector.useColor){
-            colorStart = d3.rgb(colorCode);
-            colorEnd = d3.rgb(colorCode);
-        }
-        if(config.sector.useColor && config.segment.colorGradient){
-            let brighterColor = d3.hsl(colorCode);
-            brighterColor.l *= config.segment.colorGradientLimit;
-            colorStart = d3.rgb(colorCode);
-            colorEnd = d3.rgb(brighterColor);
+        let colorStart, colorEnd, brighterColor;   
+        switch (true){
+            case config.sector.useColor && config.segment.colorGradient:
+                brighterColor = d3.hsl(colorCode);
+                brighterColor.l *= config.segment.colorGradientLimit;
+                colorStart = d3.rgb(colorCode);
+                colorEnd = d3.rgb(brighterColor);
+                break;
+            case config.segment.colorGradient:
+                brighterColor = d3.hsl(config.radar.defaultColor);
+                brighterColor.l *= config.segment.colorGradientLimit;
+                colorStart = d3.rgb(config.radar.defaultColor);
+                colorEnd = d3.rgb(brighterColor);
+                break;
+            case config.sector.useColor:
+                colorStart = d3.rgb(colorCode);
+                colorEnd = d3.rgb(colorCode);
+                break;
+            default:
+                colorStart = d3.rgb(config.radar.defaultColor);
+                colorEnd = d3.rgb(config.radar.defaultColor);    
         }        
         return d3.scaleLinear()
                     .domain([0, structure.rings.length])
@@ -168,15 +185,17 @@ function createRadar(config, entries, structure){
         }  
         return ``; 
     }
-    //#endregion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //#endregion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    //#region preparing radar data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //#region preparing radar data ||||||||||||||||||||||||||||||||||||||||||||||||||||||
     // adding inner and outer radius for each ring
     radarData.rings = structure.rings.map((ring, index) => ({
         ...ring,
         index: index,
         innerRadius: ringThickness * index,
-        blipMinRadius: (index==0) ? firstRingBlipMinRadius : ringThickness * index + blipRadiusWithPadding,
+        blipMinRadius: (index==0) 
+            ? firstRingBlipMinRadius 
+            : ringThickness * index + blipRadiusWithPadding,
         outerRadius: ringThickness * ++index,        
         blipMaxRadius: ringThickness * index - blipRadiusWithPadding,
     }));
@@ -196,11 +215,11 @@ function createRadar(config, entries, structure){
         sector.segments = sector.segments.map((segment, index) => ({
             ...segment,
             idText: `${sector.idText}_segment${index}`,
-            // index: index,
             endAngle: sector.endAngle,
             startAngle: sector.startAngle,
             color: sector.color(index),
-            blips: entries.entries.filter(entry => entry.sectorID == sector.id && entry.ringID == index)                    
+            blips: entries.filter(entry => entry.sectorID == sector.id &&  
+                                                    entry.ringID == index)         
         }))
     })
     radarData.blips = []; // list of all blips, for a better processing later on
@@ -243,11 +262,9 @@ function createRadar(config, entries, structure){
         ...state, 
         index: index
     }));
+    //#endregion ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
-    console.log(structure)
-    //#endregion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    //#region create div structure
+    //#region create div structure ______________________________________________________
     let radarDiv = d3.select(`div#${radarId}`).classed(`radarContainer`, true);
     radarDiv.append(`div`)
         .classed(`radarTitle`, true)
@@ -258,9 +275,9 @@ function createRadar(config, entries, structure){
         .classed(`radar`, true);
     radarDiv.append(`div`)
         .classed(`radarBlipLegend`, true);
-    //#endregion
+    //#endregion ________________________________________________________________________
 
-    //#region adding SVG to radarSvgDiv
+    //#region append SVG <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     radarDiv.select(`.radar`)
         .append(`div`)
         .classed(`radarContent`, true)
@@ -272,6 +289,10 @@ function createRadar(config, entries, structure){
     // place a rectangle behind the radar 
     radarDiv.select(`svg#${radarId}_svg`)
         .append(`rect`)
+        .attr(`id`, `${radarId}_background`)
+        .attr(`fill`, `none`)
+        // (!mobileMode) ? changeSvgViewbox(`${radarId}_radarContent`) : null
+        .on(`click`, ()=> console.log("test"))
     radarDiv.select(`svg#${radarId}_svg`).append(`g`)
                 .attr(`id`, `${radarId}_radarContent`)
                 .attr(`transform`, translate(radius, radius));
@@ -282,11 +303,12 @@ function createRadar(config, entries, structure){
         .on(`click`, ()=>
             document.getElementById(`${radarId}_radarLegend`).classList.toggle(`active`))
         .text(`Legende`);
-    //#endregion
+    //#endregion <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-    //#region event fuctions ***********************************************************************
+    //#region event fuctions ************************************************************
     let update = () => {
-        selectionSector.select(`.selectionButton`).style(`display`, (mobileMode) ? `none` : `block`)
+        selectionSector.select(`.selectionButton`)
+                            .style(`display`, (mobileMode) ? `none` : `block`)
         if(mobileMode && !onlyOneSectorDisplayed){
             displaySector(radarData.sectors[0]);
             changeSvgViewbox(radarData.sectors[0].idText);
@@ -299,7 +321,13 @@ function createRadar(config, entries, structure){
         let size = Math.max(box.width, box.height);
         let x = radius + box.x;
         let y = radius + box.y;
-        d3.select(`svg#${radarId}_svg`).attr(`viewBox`, `${x} ${y} ${size} ${size}`);  
+        d3.select(`svg#${radarId}_svg`).attr(`viewBox`, `${x} ${y} ${size} ${size}`);
+        
+        d3.select(`rect#${radarId}_background`)
+            .attr(`x`, x)
+            .attr(`y`, y)
+            .attr(`width`, size)
+            .attr(`height`, size)  
     }
     let showBubble = (blip) => {
         let bubble = radarDiv.select(`g#${radarId}_bubble`).style(`display`, `block`);
@@ -313,7 +341,10 @@ function createRadar(config, entries, structure){
             .attr('height', textBox.height + 4);
         bubble.select(`path`).attr('transform', translate(textBox.width / 2 - 5, 3));
     }
-    let hideBubble = () => radarDiv.select(`g#${radarId}_bubble`).style(`display`, `none`)
+
+    let hideBubble = () => 
+        radarDiv.select(`g#${radarId}_bubble`).style(`display`, `none`)
+
     let displaySector = (sector) => {
         sectors.style(`display`, `none`)
         radarDiv.select(`g#${sector.idText}`).style(`display`, `block`)
@@ -361,9 +392,9 @@ function createRadar(config, entries, structure){
         segments.filter(seg => seg.index == ring.index).style(`opacity`, 1)        
     }
     let focusAllRings = () => segments.style(`opacity`, 1);
-    //#endregion ***********************************************************************************
+    //#endregion ************************************************************************
 
-    //#region define d3 components -----------------------------------------------------------------
+    //#region d3-components radar -------------------------------------------------------
     let makeSector = (selection) => {
         selection           
             .attr(`id`, sector => `${sector.idText}`)
@@ -371,6 +402,20 @@ function createRadar(config, entries, structure){
             .on(`mouseout`, focusAllSector)
             .on(`click`, sector => {changeSvgViewbox(sector.idText); 
                                     displaySector(sector); })
+        
+        if(config.sector.showName){
+            let name = selection.append(`g`)
+                .attr(`class`, `sectorName`)
+            name.append(`path`)
+                .attr(`id`, data => `${data.idText}_name`)
+                .attr(`d`, data => arcOuterLine(data.segments[data.segments.length-1]))
+                .attr(`fill`, `none`);
+            name.append(`text`).append(`textPath`)
+                .attr(`href`, data => `#${data.idText}_name`, `http://www.w3.org/1999/xlink`)
+                .attr(`startOffset`, `50%`)
+                .attr(`style`, `text-anchor:middle;`)
+                .text(data => data.name);
+        }                           
     }    
     let makeSegment = (selection) => {
         selection            
@@ -383,12 +428,12 @@ function createRadar(config, entries, structure){
     }
     let makeBlip = (selection) => {
         selection
-            .attr(`id`, blip => `${blip.idText}`)
+            .attr(`id`, data => `${data.idText}`)
             .classed(`blip`, true)
-            .attr(`transform`, blip => translate(blip.x, blip.y))
-            .on(`click, mouseover`, blip => focusBlip(blip))
-            .on(`mouseout`, blip=> deFocusBlip(blip))            
-        let blip = selection.append(`a`).attr(`xlink:href`, blip => blip.link);        
+            .attr(`transform`, data => translate(data.x, data.y))
+            .on(`click, mouseover`, data => focusBlip(data))
+            .on(`mouseout`, data => deFocusBlip(data))            
+        let blip = selection.append(`a`).attr(`xlink:href`, data => data.link);        
         // blip outer ring
         blip.append(`circle`)
             .attr(`r`, config.blip.outerCircleRadius)
@@ -396,7 +441,7 @@ function createRadar(config, entries, structure){
             .attr(`stroke-width`, config.blip.strokeWidth)
             .attr(`stroke`, getBlipRingColor);    
         // blip indicater for movement    
-        blip.append(`path`, false)
+        blip.append(`path`)
             .attr(`d`, getBlipMovedIndicator)
             .attr(`fill`, `none`)
             .attr(`stroke-width`, config.blip.strokeWidth)
@@ -411,7 +456,7 @@ function createRadar(config, entries, structure){
             .attr('y', config.blip.fontSize/3)
             .attr('text-anchor', 'middle')
             .style(`font-size`, config.blip.fontSize)
-            .text(blip => blip.id); 
+            .text(data => data.id); 
     }
     let makeBubble = (selection) => {
         selection
@@ -431,22 +476,28 @@ function createRadar(config, entries, structure){
             .attr('class', 'background')
             .attr('d', 'M 0,0 10,0 5,8 z');
     }
+    //#endregion ------------------------------------------------------------------------
+    
+    //#region d3-components radar legend ------------------------------------------------
     let makeLegendCard = (selection, title, data, mouseover, mouseout) => {
         selection.classed(`card`, true);
         selection.append(`div`)
             .classed(`cardTitle`, true)
             .text(title);
-        selection.append(`hr`);
-        selection.selectAll(`div.cardItem`)
+        selection.selectAll(`.cardItem`)
             .data(data)
             .enter()
             .append(`div`)
-            .classed(`cardItem`, true)
-            .text(data => data.name)
+            .classed(`cardItem`, true)       
             .on(`mouseover`, (data)=> mouseover(data))
             .on(`mouseout`, (data)=> mouseout(data))
-        console.log(data)
+            .append(`span`)
+                .text(data => data.name)
+            
     }
+    //#endregion ------------------------------------------------------------------------
+    
+    //#region d3-components radar blip legend -------------------------------------------
     let makeLegendSector = (selection) => {
         selection            
             .attr(`id`, sector => `${sector.idText}_legend`)
@@ -469,9 +520,9 @@ function createRadar(config, entries, structure){
             .on(`mouseout`, blip=> deFocusBlip(blip))
             .text(blip => `${blip.id} ${blip.name}`)
     }
-    //#endregion ---------------------------------______--------------------------------------------
+    //#endregion ------------------------------------------------------------------------
 
-    //#region generate selection area ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //#region generate selection ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     let selectionSector = radarDiv.select(`.radarSelection`)
     selectionSector
         .append(`div`)
@@ -490,16 +541,16 @@ function createRadar(config, entries, structure){
             .on(`mouseover`, sector => focusSector(sector))
             .on(`mouseout`, focusAllSector)
             .text(sector => sector.name)
-    //#endregion :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //#endregion ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    //#region generate radar :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //#region generate radar ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     let sectors = d3.select(`g#${radarId}_radarContent`)
         .selectAll(`g`)
         .data(radarData.sectors)
         .enter()
         .append(`g`)
         .call(makeSector)
-    let segments = sectors.selectAll(`g`)
+    let segments = sectors.selectAll(`.segment`)
         .data(sector => sector.segments )
         .enter()
         .append(`g`)
@@ -512,9 +563,9 @@ function createRadar(config, entries, structure){
     let bubble = d3.select(`g#${radarId}_radarContent`)
         .append(`g`)
         .call(makeBubble)
-    //#endregion :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //#endregion ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    //#region generate radarLegend :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //#region generate radar legend +++++++++++++++++++++++++++++++++++++++++++++++++++++
     radarDiv.select(`.radarLegend`)
         .append(`div`)
         .attr(`id`, `${radarId}_radarLegendContainer`)
@@ -535,9 +586,9 @@ function createRadar(config, entries, structure){
             focusRing, 
             focusAllRings
         );
-    //#endregion :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //#endregion ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    //#region generate radar blip legend :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //#region generate radar blip legend ++++++++++++++++++++++++++++++++++++++++++++++++
     let legendSectors = radarDiv.select(`.radarBlipLegend`).selectAll(null)
         .data(radarData.sectors)
         .enter()
@@ -553,9 +604,9 @@ function createRadar(config, entries, structure){
         .enter()
         .append(`div`)
         .call(makeLegendBlip)
-    //#endregion :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    //#endregion ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    //#region forceSimulation **********************************************************************
+    //#region forceSimulation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     // make sure that blips stay inside their segment
     let ticked = () => blips.attr(`transform`, (d) => translate(
             d.segmentFunctions.clip(d).x, 
@@ -568,7 +619,7 @@ function createRadar(config, entries, structure){
                 .radius(config.blip.size/2 + config.blip.margin)
                 .strength(0.15))
                 .on(`tick`, ticked);
-    //#endregion ***********************************************************************************
+    //#endregion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     update();
     console.log(radarData);

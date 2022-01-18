@@ -1,17 +1,19 @@
 radar:
   id: 'intiaRadar'
   name: 'INTIA Method Radar'
+  showName: true
   defaultColor: 'rgba(99, 110, 114, 1.0)'
   renderResolution: 624 
 
 sector:
   useColor: false
-  showHeadline: true
+  showName: true
+  nameOffset: 5
 
 segment: 
-  colorGradient: false
+  colorGradient: true
   colorGradientLimit: 1.66
-  showHeadline: true
+  showName: true
   useIdAsHeadline: true
   firstSegmentRadiusPercent: 0.25
   padding: 4
