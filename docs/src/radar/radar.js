@@ -163,7 +163,7 @@ function createRadar(config, entries, structure){
         let color = (blip.stateID >= 0 && blip.stateID < structure.entryStates.length)
             ? d3.rgb(structure.entryStates[blip.stateID].color)
             : d3.rgb(config.blip.defaultColor);
-        if(blip.moved != 0) color.opacity = 0.5; 
+        if(blip.moved != 0) color.opacity = 0.25; 
         return color;
     }
     let getBlipMovedIndicator = (blip) => {
@@ -400,8 +400,9 @@ function createRadar(config, entries, structure){
             .attr(`id`, sector => `${sector.idText}`)
             .on(`mouseover`, sector => focusSector(sector))
             .on(`mouseout`, focusAllSector)
-            .on(`click`, sector => {changeSvgViewbox(sector.idText); 
-                                    displaySector(sector); })
+            .on(`click`, sector => { displaySector(sector);
+                changeSvgViewbox(sector.idText); 
+                                     })
         
         if(config.sector.showName){
             let name = selection.append(`g`)
@@ -479,21 +480,29 @@ function createRadar(config, entries, structure){
     //#endregion ------------------------------------------------------------------------
     
     //#region d3-components radar legend ------------------------------------------------
-    let makeLegendCard = (selection, title, data, mouseover, mouseout) => {
-        selection.classed(`card`, true);
-        selection.append(`div`)
-            .classed(`cardTitle`, true)
-            .text(title);
-        selection.selectAll(`.cardItem`)
-            .data(data)
-            .enter()
-            .append(`div`)
-            .classed(`cardItem`, true)       
-            .on(`mouseover`, (data)=> mouseover(data))
-            .on(`mouseout`, (data)=> mouseout(data))
-            .append(`span`)
-                .text(data => data.name)
-            
+    let makeLegendBlipStates = (selection) => {
+        selection.append(`span`)
+            .classed(`stateColor`, true)
+            .style(`background-color`, data => data.color);
+        selection.append(`span`)
+            .classed(`paddingText`, true) 
+            .text(data => data.name)
+    }
+
+    let makeLegendBlipMovement = (selection) => {
+        selection.append(`span`)
+            .classed(`movementIndicator`, true)
+            .classed(`in`, data => data.value > 0)
+            .classed(`out`, data => data.value < 0)
+        selection.append(`span`)
+            .classed(`paddingText`, true) 
+            .text(data => data.name)
+    }
+
+    let makeLegendRings = (selection) => {
+        selection.append(`span`)
+            .classed(`text`, true) 
+            .text(data => `${data.index+1}. ${data.name}`)
     }
     //#endregion ------------------------------------------------------------------------
     
@@ -566,26 +575,55 @@ function createRadar(config, entries, structure){
     //#endregion ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     //#region generate radar legend +++++++++++++++++++++++++++++++++++++++++++++++++++++
-    radarDiv.select(`.radarLegend`)
+    let radarLegendContainer = radarDiv.select(`.radarLegend`)
         .append(`div`)
         .attr(`id`, `${radarId}_radarLegendContainer`)
         .classed(`container`, true);
-    radarDiv.select(`div#${radarId}_radarLegendContainer`)
+
+    // generate entry states legend
+    let entryStatesLegend = radarLegendContainer.append(`div`)
+        .classed(`card`, true)
+    entryStatesLegend.append(`div`)
+        .classed(`cardTitle`, true)
+        .text(`Blip Zustände`);
+    entryStatesLegend.selectAll(null)
+        .data(structure.entryStates).enter()
         .append(`div`)
-        .call(makeLegendCard, 
-            `Blip Zustände`, 
-            structure.entryStates, 
-            focusBlipByState, 
-            deFocusAllBlips
-        );
-    radarDiv.select(`div#${radarId}_radarLegendContainer`)
+            .classed(`cardItem`, true)
+            .call(makeLegendBlipStates)
+            .on(`mouseover`, (data)=> focusBlipByState(data))
+            .on(`mouseout`, (data)=> deFocusAllBlips(data));
+    
+
+    // generate entry movement legend
+    let entryMovementLegend = radarLegendContainer.append(`div`)
+        .classed(`card`, true);
+    entryMovementLegend.append(`div`)
+        .classed(`cardTitle`, true)
+        .text(`Blip Movement`);
+    entryMovementLegend.selectAll(null)
+        .data(structure.entryMovement).enter()
         .append(`div`)
-        .call(makeLegendCard, 
-            `Ringe/Segmente`, 
-            radarData.rings, 
-            focusRing, 
-            focusAllRings
-        );
+            .classed(`cardItem`, true)
+            .call(makeLegendBlipMovement)
+            // .on(`mouseover`, (data)=> focusRing(data))
+            // .on(`mouseout`, (data)=> focusAllRings(data));
+
+
+    // generate ring legend
+    let ringLegend = radarLegendContainer.append(`div`)
+        .classed(`card`, true);
+    ringLegend.append(`div`)
+        .classed(`cardTitle`, true)
+        .text(`Ringe/Segmente`);
+    ringLegend.selectAll(null)
+        .data(radarData.rings).enter()
+        .append(`div`)
+            .classed(`cardItem`, true)
+            .call(makeLegendRings)
+            .on(`mouseover`, (data)=> focusRing(data))
+            .on(`mouseout`, (data)=> focusAllRings(data));
+
     //#endregion ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     //#region generate radar blip legend ++++++++++++++++++++++++++++++++++++++++++++++++

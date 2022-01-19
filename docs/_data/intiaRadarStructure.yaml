@@ -38,5 +38,8 @@ entryStates:
 
 entryMovement:
   - name: 'IN'
+    value: 1
   - name: 'OUT'
+    value: -1
   - name: 'NONE'
+    value: 0

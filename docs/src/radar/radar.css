@@ -10,7 +10,7 @@
     --radarSegmentHeadline: 18px;
     --radarRingHeadline: 18px;
     --radarLegendHeadline: 14px;
-    --radarLegendSubHeadline: 12px;
+    --radarLegendCardItemText: 14px;
     --radarLegendFontSize: 12px;
     --radarBlipLegend: 14px;
     --radarBlipLegendSectorHeadline: 14px;
@@ -106,7 +106,7 @@
 }  
  
 /* #region Text ------------------------------------------------------- */
-.sectorHeadline{
+.sectorName{
 font-size: var(--radarSectorHeadline);
 font-weight: bold;
 pointer-events: none;
@@ -203,23 +203,58 @@ fill: var(--secondaryFondColor);
     display: grid;
 }
 .radarLegend .card{
-    font-size: var(--radarLegendSubHeadline);
+    font-size: var(--radarLegendCardItemText);
     font-weight: lighter;
     padding:  0.25rem 0;
 }
 .radarLegend .cardTitle{
     padding-top: 0.25rem;
     font-weight: bold;
-    text-decoration: underline;
 }
 
 .radarLegend .cardItem{
-    font-size: var(--radarLegendSubHeadline);
-    font-weight: lighter;
+    position: relative;    
     padding:  0.25rem 0;
 }
 .radarLegend .cardItem:hover{
     background-color: var(--buttonHoverColor);
+}
+.radarLegend .cardItem .text{
+    font-size: var(--radarLegendCardItemText);
+    font-weight: lighter;
+    text-decoration: none;
+}
+.radarLegend .cardItem .paddingText{
+    font-size: var(--radarLegendCardItemText);
+    padding-left: calc(var(--radarLegendCardItemText) + 4px);
+    font-weight: lighter;
+    text-decoration: none;
+}
+.radarLegend .cardItem .stateColor{
+    position: absolute;
+    top: calc(var(--radarLegendCardItemText) / 2);
+    width: var(--radarLegendCardItemText);
+    height: var(--radarLegendCardItemText);
+    border-radius: 50%;
+}
+.radarLegend .cardItem .movementIndicator{
+    position: absolute;
+    top: calc(var(--radarLegendCardItemText) / 2);
+    width: var(--radarLegendCardItemText);
+    height: var(--radarLegendCardItemText);
+    border: 2px solid black;
+    border-radius: 50%;    
+    transform: rotate(90deg);
+}
+.radarLegend .cardItem .movementIndicator.in{
+    border-left: 2px solid rgba(0,0,0,0.25);
+    border-right: 2px solid rgba(0,0,0,0.25);
+    border-bottom: 2px solid rgba(0,0,0,0.25);
+}
+.radarLegend .cardItem .movementIndicator.out{
+    border-left: 2px solid rgba(0,0,0,0.25);
+    border-right: 2px solid rgba(0,0,0,0.25);
+    border-top: 2px solid rgba(0,0,0,0.25);
 }
 /* #endregion */
   
