@@ -3,11 +3,11 @@ radar:
   name: 'INTIA Method Radar'
   showName: true
   defaultColor: 'rgba(99, 110, 114, 1.0)'
-  renderResolution: 624 
+  renderResolution: 414
 
 sector:
   useColor: false
-  showName: true
+  showName: false
   nameOffset: 5
 
 segment: 
@@ -19,6 +19,6 @@ segment:
   padding: 4
 
 blip:
-  size: 34
+  size: 16
   defaultColor: '#8395a7'
   margin: 2

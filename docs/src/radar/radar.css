@@ -297,8 +297,8 @@ fill: var(--secondaryFondColor);
             'radarTitle radarTitle'
             'radarSelection radarSelection'
             'radarBlipLegend radar';
-        grid-template-columns: minmax(min-content, auto) 430px;
-        grid-template-rows: min-content min-content 470px;
+        grid-template-columns: minmax(min-content, auto) minmax(430px, auto);
+        grid-template-rows: min-content min-content 70%;
     }
     .radarBlipLegend{
         /* max-height: 200px; */

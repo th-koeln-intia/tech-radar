@@ -2,9 +2,6 @@
 // d3.json("dummy_data.json").then((data) => createRadar(data.config, data.entries, data.structure))
 //#endregion
 
-// function test(x){
-//   console.log("TEST", x)
-// }
 /* 
 all occurring angles are in radian 
 */
@@ -22,16 +19,14 @@ function createRadar(config, entries, structure){
         radarData={}, // object to save all radar data
         seed = 42,  // seed number for reproducible random sequence
         blipIdCounter = 1, // counter variable to give each blip a unique id
-        onlyOneSectorDisplayed = false
-        mobileMode = (document.getElementById(radarId).offsetWidth < 730) ? true : false;
+        onlyOneSectorDisplayed = false;
 
     window.onresize = () => {
-        mobileMode = (document.getElementById(radarId).offsetWidth < 730) ? true : false;
+        mobileMode = (getSvgDivWidth() < diameter) ? true : false;
         update();
-    }
+    }    
 
-    //#region radar helper functions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    let translate = (x, y) => `translate(${x}, ${y})`;
+    //#region helper function math ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*-------------------------------------------------------------------
     custom random number generator, to make random sequence reproducible
     source: https://stackoverflow.com/questions/521295
@@ -59,7 +54,12 @@ function createRadar(config, entries, structure){
 
     let calcOffsetAngle = (radius) => 
         Math.atan(blipRadiusWithPadding / radius);
+    //#endregion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    //#region helper function segment borders ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /* Checks if a value is in interval between min and max. 
+    -> If the value is below the interval minimum, the interval minimum is returned.
+    -> If the value is above the interval maximum, the interval maximum is returned.*/
     let bounded_interval = (value, min, max) => {
         let low = Math.min(min, max);
         let high = Math.max(min, max);
@@ -99,7 +99,19 @@ function createRadar(config, entries, structure){
         random: () => pointByAngleAndRadius(
             random_between(segment.startAngle, segment.endAngle),
             normal_between(segment.blipMinRadius, segment.blipMaxRadius))
-    })    
+    })
+    //#endregion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    //#region helper functions radar ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    let getSvgDivWidth = () => {
+        // returns the width of the div tag where the svg is placed in excluding the padding
+        let radarOffsetWidth = radarDiv.select(`.radar`).node().offsetWidth;
+        let padding = parseInt(window.getComputedStyle(radarDiv.select(`.radar`).node()).paddingLeft) * 2;
+        console.log(radarOffsetWidth, padding)
+        return radarOffsetWidth - padding;
+    }
+
+    let translate = (x, y) => `translate(${x}, ${y})`;       
 
     let arc = (segment) => {  
         const startMaxPoint = pointByAngleAndRadius(segment.startAngle, segment.outerRadius);
@@ -272,7 +284,8 @@ function createRadar(config, entries, structure){
     radarDiv.append(`div`)
         .classed(`radarSelection`, true);
     radarDiv.append(`div`)
-        .classed(`radar`, true);
+        .classed(`radar`, true)
+        .attr(`id`, `${radarId}_radarDiv`);
     radarDiv.append(`div`)
         .classed(`radarBlipLegend`, true);
     //#endregion ________________________________________________________________________
@@ -291,7 +304,6 @@ function createRadar(config, entries, structure){
         .append(`rect`)
         .attr(`id`, `${radarId}_background`)
         .attr(`fill`, `none`)
-        // (!mobileMode) ? changeSvgViewbox(`${radarId}_radarContent`) : null
         .on(`click`, ()=> console.log("test"))
     radarDiv.select(`svg#${radarId}_svg`).append(`g`)
                 .attr(`id`, `${radarId}_radarContent`)
@@ -305,6 +317,8 @@ function createRadar(config, entries, structure){
         .text(`Legende`);
     //#endregion <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+    let mobileMode = (getSvgDivWidth() < diameter) ? true : false;
+
     //#region event fuctions ************************************************************
     let update = () => {
         selectionSector.select(`.selectionButton`)
@@ -313,6 +327,7 @@ function createRadar(config, entries, structure){
             displaySector(radarData.sectors[0]);
             changeSvgViewbox(radarData.sectors[0].idText);
         } 
+        else changeSvgViewbox(`${radarId}_radarContent`);
     }
     
     let changeSvgViewbox = (idText) => {
@@ -659,6 +674,8 @@ function createRadar(config, entries, structure){
                 .on(`tick`, ticked);
     //#endregion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+
+
     update();
     console.log(radarData);
 }
