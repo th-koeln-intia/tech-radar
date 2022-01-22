@@ -5,6 +5,7 @@
     --lineWidth: 1; 
     --spacing: 0.5rem;
     --textPadding: 0.25em;
+    --boxShadow: 0 5px 20px rgba(0,0,0,0.1);
 /* FontSizes */
     --radarHeadline: 30px;  
     --radarSelectionButton: 14px;
@@ -71,6 +72,31 @@
     grid-auto-rows: min-content;
     gap: var(--spacing);
 }
+/* #endregion */
+
+/* #region general classes */
+.radarContainer .dropdown{
+    position: relative;
+    border-radius: var(--borderRadius);
+    padding: var(--textPadding);
+    user-select: none;
+    cursor: pointer;
+}
+.radarContainer .dropdown:hover{
+    background-color: var(--buttonHoverColor);
+}
+.radarContainer .dropdown .dropdownContent{
+    position: absolute;
+    display: none;
+    border-radius: var(--borderRadius);
+    box-shadow: var(--boxShadow);
+    background-color: var(--elementsBackgroundColor);
+    width: 100%;
+    left: 0;
+}
+
+
+
 /* #endregion */
 
 /* #region radarSelection ------------------------------------------ */
@@ -164,10 +190,11 @@ fill: var(--secondaryFondColor);
 /* #region radarLegend --------------------------------------------- */
 .radarLegend{
     position: relative;
+    border-radius: var(--borderRadius);
     font-size: var(--radarLegendCardTitle);
     font-weight: bold;
-    user-select: none;
-    margin-top: 0.5rem;
+    cursor: pointer;
+    margin-top: var(--spacing);
     padding: var(--textPadding);
 }
 .radarLegend:hover{
@@ -195,19 +222,23 @@ fill: var(--secondaryFondColor);
 }
 
 .radarLegend .container{
+    position: absolute;
     display: none;
-    margin-top: 0.5rem;
-    grid-template-columns: auto;
-    grid-auto-rows: minmax(auto, auto);
-    gap: var(--spacing);
+    overflow: auto;
+    border-radius: var(--borderRadius);
+    box-shadow: var(--boxShadow);
+    background-color: var(--elementsBackgroundColor);
+    width: 100%;
+    height: 130px;    
+    left: 0;
 }
 .radarLegend.active .container{
-    display: grid;
+    display: block;
 }
 .radarLegend .card{
     font-size: var(--radarLegendCardItemText);
     font-weight: lighter;
-    padding:  0.25rem 0;
+    padding:  var(--spacing);
 }
 .radarLegend .cardTitle{
     padding: var(--textPadding);
@@ -216,6 +247,7 @@ fill: var(--secondaryFondColor);
 
 .radarLegend .cardItem{
     position: relative;    
+    border-radius: var(--borderRadius);
     padding:  var(--textPadding);
 }
 .radarLegend .cardItem:hover{
@@ -300,18 +332,5 @@ fill: var(--secondaryFondColor);
         grid-template-columns: 0.4fr 0.6fr;
         grid-template-rows: min-content min-content 0fr;
     }
-    .radar{
-        /* width: 23vw; */
-        /* height: 1fr; */
-    }
-    .radarBlipLegend{
-        /* width:fit-content; */
-        /* height: ; */
-    }
-
-    .radarBlipLegend{
-        overflow: auto;
-        grid-auto-columns: auto;
-        grid-auto-rows: minmax(min-content, auto);        
-    }
+    
 }

@@ -1,7 +1,7 @@
 radar:
   id: 'intiaRadar'
   name: 'INTIA Method Radar'
-  showName: true
+  showName: false
   defaultColor: 'rgba(99, 110, 114, 1.0)'
   renderResolution: 410
 

@@ -278,9 +278,12 @@ function createRadar(config, entries, structure){
 
     //#region create div structure ______________________________________________________
     let radarDiv = d3.select(`div#${radarId}`).classed(`radarContainer`, true);
-    radarDiv.append(`div`)
-        .classed(`radarTitle`, true)
-        .text(config.radar.name);
+    if(config.radar.showName){
+        radarDiv.append(`div`)
+            .classed(`radarTitle`, true)
+            .text(config.radar.name);
+    }
+    // select sector dropdown
     radarDiv.append(`div`)
         .classed(`radarSelection`, true);
     radarDiv.append(`div`)
