@@ -1,8 +1,9 @@
 radar:
   id: 'intiaRadar'
   name: 'INTIA Method Radar'
-  showAllSectorsText: 'Alle Sektoren'
   showName: true
+  showAllSectorsText: 'Alle Sektoren'
+  legendDropdownText: 'Legende'
   defaultColor: 'rgba(99, 110, 114, 1.0)'
   renderResolution: 410
 

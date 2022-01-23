@@ -309,7 +309,7 @@ function createRadar(config, entries, structure){
         .classed(`radarLegend dropdown`, true)
         .on(`click`, ()=>
             document.getElementById(`${radarId}_radarLegend`).classList.toggle(`active`))
-        .text(`Legende`);
+        .text(config.radar.legendDropdownText);
     //#endregion <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     // can be declared only after the radar svg is appended
