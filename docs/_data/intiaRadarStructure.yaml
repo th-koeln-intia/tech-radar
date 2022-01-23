@@ -11,35 +11,41 @@ sectors:
     color: '#f1c40f'
   
 rings:
-  - name: 'Entscheidungsmacht'
-    color: '#93c47d'
-  - name: 'teilw. Entscheidungsmacht'
-    color: '#93d2c2'
-  - name: 'Mitbestimmung'
-    color: '#fbdb84'
-  - name: 'Einbeziehung'
-    color: '#efafa9'
-  - name: 'Anhörung'
-    color: '#857dc4'
-  - name: 'Information'
-    color: '#efafa9'
-  - name: 'nicht beteiligt'
-    color: '#efafa9'
+  legendTitle: 'Ringe/Segmente'
+  list:
+    - name: 'Entscheidungsmacht'
+      color: '#93c47d'
+    - name: 'teilw. Entscheidungsmacht'
+      color: '#93d2c2'
+    - name: 'Mitbestimmung'
+      color: '#fbdb84'
+    - name: 'Einbeziehung'
+      color: '#efafa9'
+    - name: 'Anhörung'
+      color: '#857dc4'
+    - name: 'Information'
+      color: '#efafa9'
+    - name: 'nicht beteiligt'
+      color: '#efafa9'
 
 entryStates:
-  - name: 'Methode nach Lehrbuch'
-    color: '#10ac84'
-  - name: 'Neu entwickelte/Stark adaptierte Methode'
-    color: '#2e86de'
-  - name: 'Ungetestete Methode'
-    color: '#ff9f43'
-  - name: 'Andere'
-    color: '#ee5253'
+  legendTitle: 'Zustände'
+  list:
+    - name: 'Methode nach Lehrbuch'
+      color: '#10ac84'
+    - name: 'Neu entwickelte/Stark adaptierte Methode'
+      color: '#2e86de'
+    - name: 'Ungetestete Methode'
+      color: '#ff9f43'
+    - name: 'Andere'
+      color: '#ee5253'
 
 entryMovement:
-  - name: 'IN'
-    value: 1
-  - name: 'OUT'
-    value: -1
-  - name: 'NONE'
-    value: 0
+  legendTitle: 'Bewegung'
+  list:
+    - name: 'Nach Innen'
+      value: 1
+    - name: 'nach Außen'
+      value: -1
+    - name: 'Keine'
+      value: 0

@@ -7,23 +7,25 @@
     --textPadding: 0.25em;
     --boxShadow: 0 5px 20px rgba(0,0,0,0.1);
 /* FontSizes */
-    --radarHeadline: 30px;  
+    --radarDropdown: 16px;
+
+    --radarCardTitle: 16px;
+    --radarCardItem: 14px;
+
+    --radarTitel: 30px;  
     --radarSelectionButton: 14px;
-    --radarSectorHeadline: 24px;
-    --radarSegmentHeadline: 18px;
-    --radarRingHeadline: 18px;
+    --radarSectorName: 16px;
 
     --radarLegendCardTitle: 16px;
     --radarLegendCardItemText: 14px;
 
-    --radarBlipLegend: 14px;
-    --radarBlipLegendSectorHeadline: 14px;
-    --radarBlipLegendSegmentHeadline: 12px;
-    --radarBlipLegendBlipText: 10px;
+    --radarBlipLegendSector: 14px;
+    --radarBlipLegendSegment: 12px;
+    --radarBlipLegendBlip: 10px;
 /* Colors */
     --primaryFontColor: #000000;
-    --secondaryFondColor: #ffffff;
-    --elementsBackgroundColor: #ffffff;
+    --secondaryFontColor: #ffffff;
+    --cardBackgroundColor: #ffffff;
     --buttonHoverColor: #ecf0f1;
     --lineColor: rgba(178, 190, 195,1.0);
     --bubbleColor: rgba(178, 190, 195,1.0);
@@ -39,7 +41,7 @@
         'radarBlipLegend';
     grid-gap: var(--spacing);
     /* background-color: rgb(250, 250, 250); */
-    background-color: rgb(230, 230, 230);
+    background-color: rgba(0, 0, 0, 0.02);
     border-radius: var(--borderRadius);
     padding: var(--spacing);
     font-family: var(--fontFamily);
@@ -47,20 +49,17 @@
 } 
 .radarTitle {
     grid-area: radarTitle;
-    font-size: var(--radarHeadline);
+    font-size: var(--radarTitel);
     padding: var(--textPadding);
     border-radius: var(--borderRadius);
-    background-color: var(--elementsBackgroundColor);
+    background-color: var(--cardBackgroundColor);
 }
 .radarSelection{
     grid-area: radarSelection;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-    grid-gap: var(--spacing);
 }
 .radar{
     grid-area: radar;
-    background-color: var(--elementsBackgroundColor);
+    background-color: var(--cardBackgroundColor);
     border-radius: var(--borderRadius);
     padding: var(--spacing);
     height: min-content;
@@ -74,41 +73,106 @@
 }
 /* #endregion */
 
-/* #region general classes */
+/* #region dropdown */
 .radarContainer .dropdown{
     position: relative;
     border-radius: var(--borderRadius);
     padding: var(--textPadding);
     user-select: none;
     cursor: pointer;
+    background-color: var(--cardBackgroundColor);
+    font-size: var(--radarDropdown);
 }
 .radarContainer .dropdown:hover{
     background-color: var(--buttonHoverColor);
 }
+/* dropdown arrow */
+.radarContainer .dropdown::before{
+    content: '';
+    position: absolute;
+    right: calc(var(--textPadding) * 2);
+    top: calc(var(--textPadding) * 2);
+    z-index: 10000;
+    width: calc(var(--radarDropdown) / 2);
+    height: calc(var(--radarDropdown) / 2);
+    border: 2px solid var(--primaryFontColor);
+    border-top: 2px solid rgba(0,0,0,0);
+    border-right: 2px solid rgba(0,0,0,0);
+    transform: rotate(-45deg);
+    transition: 250ms;
+}
+.radarContainer .dropdown.active::before{
+    top: calc(var(--textPadding) * 3);
+    transform: rotate(135deg);
+}
+.radarContainer .dropdownText{
+    width: 100%;
+    height: 100%;
+}
 .radarContainer .dropdown .dropdownContent{
     position: absolute;
     display: none;
+    z-index: 10000;
     border-radius: var(--borderRadius);
     box-shadow: var(--boxShadow);
-    background-color: var(--elementsBackgroundColor);
+    background-color: var(--cardBackgroundColor);
     width: 100%;
     left: 0;
+    margin-top: var(--spacing);
 }
+.radarContainer .dropdown.active .dropdownContent{
+    display: block;
+}
+/* #endregion */
 
-
+/* #region card */
+.radarContainer .card{
+    padding: var(--spacing);
+    background-color: var(--cardBackgroundColor);  
+    border-radius: var(--borderRadius);
+}
+.radarContainer .subCard{
+    padding: 0; 
+    border-radius: var(--borderRadius);
+}
+.radarContainer .cardTitle{
+    padding: var(--textPadding);
+    font-size: var(--radarCardTitle);
+    font-weight: bold;
+}
+.radarContainer .cardItem{
+    position: relative;    
+    border-radius: var(--borderRadius);
+    padding:  var(--textPadding);
+    cursor: pointer;
+}
+.radarContainer .cardItem:hover{
+    background-color: var(--buttonHoverColor);
+}
+.radarContainer .cardItem.active{
+    background-color: var(--buttonHoverColor);
+}
+.radarContainer .cardItem .text{
+    font-size: var(--radarCardItem);
+    font-weight: lighter;
+    text-decoration: none;
+}
 
 /* #endregion */
 
 /* #region radarSelection ------------------------------------------ */
-.selectionButton{
+.radarContainer .radarSelection{
+    text-align: center;
+}
+.radarContainer .selectionButton{
     font-size: var(--radarSelectionButton);
     text-align: center;
     user-select: none;
     padding: var(--textPadding);
     border-radius: var(--borderRadius);
-    background-color: var(--elementsBackgroundColor);
+    background-color: var(--cardBackgroundColor);
 }
-.selectionButton:hover{
+.radarContainer .selectionButton:hover{
     background-color: var(--buttonHoverColor);
 }
 /* #endregion */
@@ -123,7 +187,7 @@
     overflow: visible;
     border-top-left-radius: var(--borderRadius);
     border-top-right-radius: var(--borderRadius);
-    background-color: var(--elementsBackgroundColor);
+    background-color: var(--cardBackgroundColor);
 }  
 .radarContent .radarSVG{
     display: inline-block;
@@ -136,7 +200,7 @@
  
 /* #region Text ------------------------------------------------------- */
 .sectorName{
-font-size: var(--radarSectorHeadline);
+font-size: var(--radarSectorName);
 font-weight: bold;
 pointer-events: none;
 user-select: none;
@@ -163,14 +227,14 @@ user-select: none;
 .blipText {
 /* font-size scales by blipSize set in config-File */
 font-weight: bold;
-/* fill: var(--secondaryFondColor); */
+/* fill: var(--secondaryFontColor); */
 fill: white;
 pointer-events: none;
 user-select: none;    
 }
 .bubbleText {
 /* font-size scales by blipSize set in config-File */
-fill: var(--secondaryFondColor);
+fill: var(--secondaryFontColor);
 }
 /* #endregion */
 
@@ -185,107 +249,47 @@ fill: var(--secondaryFondColor);
     stroke-width: var(--lineWidth);
     stroke: var(--lineColor);
 }  
+.radarContainer .blip{
+    cursor: pointer;
+}
 /* #endregion */
 
 /* #region radarLegend --------------------------------------------- */
 .radarLegend{
-    position: relative;
-    border-radius: var(--borderRadius);
-    font-size: var(--radarLegendCardTitle);
-    font-weight: bold;
-    cursor: pointer;
     margin-top: var(--spacing);
-    padding: var(--textPadding);
 }
-.radarLegend:hover{
-    background-color: var(--buttonHoverColor);
-}
-/* dropdown arrow */
-.radarLegend::before{ 
-    content: '';
-    position: absolute;
-    right: calc(var(--textPadding) * 2);
-    top: var(--textPadding);
-    z-index: 10000;
-    width: calc(var(--radarLegendCardTitle) / 2);
-    height: calc(var(--radarLegendCardTitle) / 2);
-    border: 2px solid var(--primaryFontColor);
-    border-top: 2px solid rgba(0,0,0,0);
-    border-right: 2px solid rgba(0,0,0,0);
-    transform: rotate(-45deg);
-    transition: 250ms;
-}
-.radarLegend.active::before{
-    top: 12px;
-    transition: 500ms;
-    transform: rotate(135deg);
-}
-
-.radarLegend .container{
-    position: absolute;
-    display: none;
+.radarLegend .dropdownContent{
+    height: 14rem;
     overflow: auto;
-    border-radius: var(--borderRadius);
-    box-shadow: var(--boxShadow);
-    background-color: var(--elementsBackgroundColor);
-    width: 100%;
-    height: 130px;    
-    left: 0;
 }
-.radarLegend.active .container{
-    display: block;
-}
-.radarLegend .card{
-    font-size: var(--radarLegendCardItemText);
-    font-weight: lighter;
-    padding:  var(--spacing);
-}
-.radarLegend .cardTitle{
-    padding: var(--textPadding);
-    font-weight: bold;
-}
-
-.radarLegend .cardItem{
-    position: relative;    
-    border-radius: var(--borderRadius);
-    padding:  var(--textPadding);
-}
-.radarLegend .cardItem:hover{
-    background-color: var(--buttonHoverColor);
-}
-.radarLegend .cardItem .text{
-    font-size: var(--radarLegendCardItemText);
-    font-weight: lighter;
-    text-decoration: none;
-}
-.radarLegend .cardItem .paddingText{
+.radarLegend .paddingText{
     font-size: var(--radarLegendCardItemText);
     padding-left: calc(var(--radarLegendCardItemText) + var(--textPadding));
     font-weight: lighter;
     text-decoration: none;
 }
-.radarLegend .cardItem .stateColor{
+.radarLegend .stateColor{
     position: absolute;
-    top: calc(var(--radarLegendCardItemText) / 2);
+    top: 25%;
     width: var(--radarLegendCardItemText);
     height: var(--radarLegendCardItemText);
     border-radius: 50%;
 }
-.radarLegend .cardItem .movementIndicator{
+.radarLegend .movementIndicator{
     position: absolute;
-    top: calc(var(--radarLegendCardItemText) / 2);
+    top: 25%;
     width: var(--radarLegendCardItemText);
     height: var(--radarLegendCardItemText);
     border: 2px solid black;
     border-radius: 50%;    
     transform: rotate(90deg);
 }
-.radarLegend .cardItem .movementIndicator.in{
+.radarLegend .movementIndicator.in{
     border-left: 2px solid rgba(0,0,0,0.25);
     border-right: 2px solid rgba(0,0,0,0.25);
     border-bottom: 2px solid rgba(0,0,0,0.25);
 }
-.radarLegend .cardItem .movementIndicator.out{
+.radarLegend .movementIndicator.out{
     border-left: 2px solid rgba(0,0,0,0.25);
     border-right: 2px solid rgba(0,0,0,0.25);
     border-top: 2px solid rgba(0,0,0,0.25);
@@ -293,44 +297,28 @@ fill: var(--secondaryFondColor);
 /* #endregion */
   
 /* #region radarBlipLegend ----------------------------------------- */    
-.radarBlipLegend .legendSector{
-    /* overflow: auto; */
-    padding: calc(var(--textPadding) * 2);
-    border-radius: var(--borderRadius);
-    background-color: var(--elementsBackgroundColor);    
-    min-width: max-content;    
-    user-select: none;
-    font-size: var(--radarBlipLegend);
+.radarContainer .blipLegendSector{
+    font-size: var(--radarBlipLegendSector);
     font-weight: bold;
 }
-.radarBlipLegend .legendSegment{
-    padding: var(--textPadding);
-    font-size: var(--radarBlipLegend);
-    font-weight:lighter;
+.radarContainer .blipLegendSegment{
+    font-size: var(--radarBlipLegendSegment);
+    font-weight: lighter;
 }
-.radarBlipLegend .legendBlip{
-    padding: var(--textPadding);
-    border-radius: var(--borderRadius);
-    font-size: var(--radarBlipLegend);      
-}
-.radarBlipLegend .legendBlip.active{
-    background-color: var(--buttonHoverColor);
-}
-.radarBlipLegend .legendBlip:hover{
-    opacity: 1;
-    background-color: var(--buttonHoverColor);
+.radarContainer .blipLegendBlip{
+    font-size: var(--radarBlipLegendBlip);      
 }
 /* #endregion */
 
 /* for tablet or desktop */
 @media screen and (min-width: 800px){
     .radarContainer{
+        display: grid;
         grid-template:
             'radarTitle radarTitle'
             'radarSelection radarSelection'
             'radarBlipLegend radar';
         grid-template-columns: 0.4fr 0.6fr;
         grid-template-rows: min-content min-content 0fr;
-    }
-    
+    }    
 }
