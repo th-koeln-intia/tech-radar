@@ -5,10 +5,6 @@ sectors:
     color: '#e74c3c'
   - name: 'Discover'
     color: '#9b59b6'
-  - name: 'Define'
-    color: '#f1c40f'
-  - name: 'Define'
-    color: '#f1c40f'
   
 rings:
   legendTitle: 'Ringe/Segmente'

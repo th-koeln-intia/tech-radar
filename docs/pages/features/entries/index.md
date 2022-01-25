@@ -7,7 +7,9 @@ parent: Funktionen
 
 # {{page.title}}
 
-Einträge werden in der Einträge-JSON wie folgt definiert.
+## Einträge-Datei
+Die Einträge des Radars werden duch eine Einträge-Datei bestimmt. In diesem Projekt ist diese Datei eine YAML-Datei die wie unten aufgebaut ist. Für die Erstellung des Radars wird diese YAML-Datei vorher in JSON-Format konvertiert. 
+
 
 {% highlight yaml %}
 - name: 'Hospitation'

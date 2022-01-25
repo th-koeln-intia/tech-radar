@@ -8,6 +8,7 @@ parent: Funktionen
 # {{page.title}}
 
 ## Konfigurations-Datei
+Die Konfiguration des Radars wird duch eine Konfigurations-Datei bestimmt. In diesem Projekt ist diese Datei eine YAML-Datei die wie unten aufgebaut ist. Für die Erstellung des Radars wird diese YAML-Datei vorher in JSON-Format konvertiert. 
 
 ### Radar
 {% highlight yaml %}

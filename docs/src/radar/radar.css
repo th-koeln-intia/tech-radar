@@ -1,7 +1,7 @@
 :root {
 /* Generel */
     --fontFamily: "Arial";
-    --borderRadius: 0.5rem;
+    --borderRadius: 0;
     --lineWidth: 1; 
     --spacing: 0.5rem;
     --textPadding: 0.25em;
