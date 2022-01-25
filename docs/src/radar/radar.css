@@ -5,20 +5,15 @@
     --lineWidth: 1; 
     --spacing: 0.5rem;
     --textPadding: 0.25em;
-    --boxShadow: 0 5px 20px rgba(0,0,0,0.1);
+    --dropdownBoxShadow: 0 5px 20px rgba(0,0,0,0.1);
 /* FontSizes */
     --radarDropdown: 16px;
-
     --radarCardTitle: 16px;
     --radarCardItem: 14px;
-
-    --radarTitel: 30px;  
+    --radarName: 30px;  
     --radarSelectionButton: 14px;
     --radarSectorName: 16px;
-
-    --radarLegendCardTitle: 16px;
     --radarLegendCardItemText: 14px;
-
     --radarBlipLegendSector: 14px;
     --radarBlipLegendSegment: 12px;
     --radarBlipLegendBlip: 10px;
@@ -49,7 +44,7 @@
 } 
 .radarTitle {
     grid-area: radarTitle;
-    font-size: var(--radarTitel);
+    font-size: var(--radarName);
     padding: var(--textPadding);
     border-radius: var(--borderRadius);
     background-color: var(--cardBackgroundColor);
@@ -63,6 +58,9 @@
     border-radius: var(--borderRadius);
     padding: var(--spacing);
     height: min-content;
+}
+.radarLegend{
+    margin-top: var(--spacing);
 }
 .radarBlipLegend{
     overflow: auto;
@@ -114,7 +112,7 @@
     display: none;
     z-index: 10000;
     border-radius: var(--borderRadius);
-    box-shadow: var(--boxShadow);
+    box-shadow: var(--dropdownBoxShadow);
     background-color: var(--cardBackgroundColor);
     width: 100%;
     left: 0;
@@ -255,9 +253,6 @@ fill: var(--secondaryFontColor);
 /* #endregion */
 
 /* #region radarLegend --------------------------------------------- */
-.radarLegend{
-    margin-top: var(--spacing);
-}
 .radarLegend .dropdownContent{
     height: 14rem;
     overflow: auto;

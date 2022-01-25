@@ -2,6 +2,7 @@
 all occurring angles are in radian 
 */
 function createRadar(config, entries, structure){   
+    //#region variable definition #######################################################
     const 
         radarId = config.radar.id,
         diameter = config.radar.renderResolution,
@@ -17,6 +18,8 @@ function createRadar(config, entries, structure){
         blipIdCounter = 1, // counter variable to give each blip a unique id
         onlyOneSectorDisplayed = false;
 
+    //#endregion ########################################################################
+    
     window.onresize = () => {
         mobileMode = (getSvgDivWidth() < diameter) ? true : false;
         update();
@@ -98,7 +101,7 @@ function createRadar(config, entries, structure){
     })
     //#endregion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    //#region helper functions radar ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    //#region helper functions svg ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     let getSvgDivWidth = () => {
         // returns the width of the div tag where the svg is placed in excluding the padding
         let radarOffsetWidth = radarDiv.select(`.radar`).node().offsetWidth;
@@ -207,7 +210,7 @@ function createRadar(config, entries, structure){
         blipMaxRadius: ringThickness * index - blipRadiusWithPadding,
     }));
 
-    // generate equal pie pieces 
+    // generate equal circle pieces 
     radarData.sectors = structure.sectors.map((sector, index) => ({
         ...sector,
         id: index,
@@ -226,7 +229,10 @@ function createRadar(config, entries, structure){
             startAngle: sector.startAngle,
             color: sector.color(index),
             blips: entries
-                        .filter(entry => entry.sectorID == sector.id && entry.ringID == index) 
+                        .filter(entry => 
+                            entry.sectorID == sector.id && 
+                            entry.ringID == index && 
+                            entry.active) 
                         .sort((a, b) => a.name.localeCompare(b.name))        
         }))
     })
@@ -290,7 +296,7 @@ function createRadar(config, entries, structure){
         .classed(`radarBlipLegend`, true);
     //#endregion ________________________________________________________________________
 
-    //#region append radar SVG and legend <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    //#region create radar SVG and radar legend _________________________________________
     radarDiv.select(`.radar`)
         .append(`div`)
         .classed(`radarContent`, true)
@@ -310,7 +316,7 @@ function createRadar(config, entries, structure){
         .on(`click`, ()=>
             document.getElementById(`${radarId}_radarLegend`).classList.toggle(`active`))
         .text(config.radar.legendDropdownText);
-    //#endregion <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    //#endregion ________________________________________________________________________
 
     // can be declared only after the radar svg is appended
     let mobileMode = (getSvgDivWidth() < diameter) ? true : false;
