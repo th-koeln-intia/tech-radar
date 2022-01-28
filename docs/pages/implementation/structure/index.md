@@ -59,7 +59,7 @@ Dieser Bereich ist weiter unterteilt in:
 
 
 ### 6. D3-Komponenten (---)
-Auf D3-Komponenten wird hier ([D3-Komponenten]) weiter eingegangen.
+Hier werden D3-Komponenten Funktionen definiert die später bei der Generierung mit `.call()` aufgerufen werden. Dieses Simple Beispiel erklärt die Funktionsweise ganz gut [d3indepth](https://www.d3indepth.com/selections/#call).
 
 Dieser Bereich ist weiter unterteilt in:
 - Radar Komponenten.
@@ -76,9 +76,3 @@ Dieser Bereich ist weiter unterteilt in:
 
 ### 8. Simulation (%%%)
 In diesem Bereich befindet sich die D3-Kollisionssimulation 
-
-
-
-
-
-[D3-Komponenten]: /pages/implementation/d3-components/

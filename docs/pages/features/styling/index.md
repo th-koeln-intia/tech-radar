@@ -13,7 +13,7 @@ Das Radar kann individuell gestaltet werden in dem eine Kopie des Radar-Styleshe
 :root {
 /* Generel */
     --fontFamily: "Arial";
-    --borderRadius: 0.5rem;
+    --borderRadius: 0;
     --lineWidth: 1; 
     --spacing: 0.5rem;
     --textPadding: 0.25em;
@@ -25,6 +25,7 @@ Das Radar kann individuell gestaltet werden in dem eine Kopie des Radar-Styleshe
     --radarName: 30px;  
     --radarSelectionButton: 14px;
     --radarSectorName: 16px;
+    --radarSegmentName: 11px;
     --radarLegendCardItemText: 14px;
     --radarBlipLegendSector: 14px;
     --radarBlipLegendSegment: 12px;
@@ -36,6 +37,6 @@ Das Radar kann individuell gestaltet werden in dem eine Kopie des Radar-Styleshe
     --buttonHoverColor: #ecf0f1;
     --lineColor: rgba(178, 190, 195,1.0);
     --bubbleColor: rgba(178, 190, 195,1.0);
-}  
+} 
 ...
 {% endhighlight %}

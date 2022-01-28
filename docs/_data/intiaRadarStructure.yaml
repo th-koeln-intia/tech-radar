@@ -5,6 +5,7 @@ sectors:
     color: '#e74c3c'
   - name: 'Discover'
     color: '#9b59b6'
+ 
   
 rings:
   legendTitle: 'Ringe/Segmente'

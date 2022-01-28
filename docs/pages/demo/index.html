@@ -1,7 +1,7 @@
 ---
 title: Demo
 layout: default
-nav_order: 3
+nav_order: 4
 # has_children: true
 ---
 <article class="post">
@@ -14,19 +14,19 @@ nav_order: 3
     </header>
   
     <div class="post-content">   
-      # {{page.title}}
+      <h1>{{page.title}}</h1>
 
       Auf dieser Seite kann man das Radar Testen, z.B. wie und was die einzelnen Sachen in der Konfigurations Datei machen.
 
       Im folgenden sind die Drei Dateinen als JSON editierbar.
 
-      ### Konfigurations Datei:
+      <h3>Konfigurations Datei:</h3>
       <textarea id="configInput" style="width: 100%; min-height: 12rem; max-height: 24rem; resize: vertical;"></textarea>
 
-      ### Struktur Datei:
+      <h3>Struktur Datei:</h3>
       <textarea id="structurInput" style="width: 100%; min-height: 12rem; max-height: 24rem; resize: vertical;"></textarea>
 
-      ### Einträge Datei:
+      <h3>Einträge Datei:</h3> 
       <textarea id="entriesInput" style="width: 100%; min-height: 12rem; max-height: 24rem; resize: vertical;"></textarea>
 
       <button id="testBtn">Testen</button>
@@ -47,13 +47,12 @@ nav_order: 3
         entriesInput.value = JSON.stringify(entries, "    ", " ");
 
         let testBtn = document.getElementById("testBtn");
-        testBtn.addEventListener("click", ()=>{
-          
+        testBtn.addEventListener("click", ()=>{          
             try{
                 let testConfig = JSON.parse(configInput.value);
                 let testStructur = JSON.parse(structurInput.value);
                 let testEntries = JSON.parse(entriesInput.value);
-                createRadar(testConfig, testStructur, testEntries);
+                createRadar(testConfig, testEntries, testStructur);
             }catch(err){
                 alert("JSON Syntax Error!\nReload Page for working JSON");
             }        

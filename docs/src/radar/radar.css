@@ -13,6 +13,7 @@
     --radarName: 30px;  
     --radarSelectionButton: 14px;
     --radarSectorName: 16px;
+    --radarSegmentName: 11px;
     --radarLegendCardItemText: 14px;
     --radarBlipLegendSector: 14px;
     --radarBlipLegendSegment: 12px;
@@ -110,6 +111,7 @@
 .radarContainer .dropdown .dropdownContent{
     position: absolute;
     display: none;
+    user-select: none;
     z-index: 10000;
     border-radius: var(--borderRadius);
     box-shadow: var(--dropdownBoxShadow);
@@ -203,20 +205,13 @@ font-weight: bold;
 pointer-events: none;
 user-select: none;
 }  
-.segmentHeadline{
-font-size: var(--radarSegmentHeadline);
-font-weight: bold;
-text-anchor: middle;
-pointer-events: none;
-user-select: none;
+.radarContent .segmentName{
+    font-size: var(--radarSegmentName);
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
 }
-.ringHeadline{
-font-size: var(--radarRingHeadline);
-font-weight: bold;
-text-anchor: middle;
-pointer-events: none;
-user-select: none;
-}
+
 .methodStatesText {
 vertical-align: middle;
 pointer-events: none;
@@ -301,6 +296,7 @@ fill: var(--secondaryFontColor);
     font-weight: lighter;
 }
 .radarContainer .blipLegendBlip{
+    user-select: none;
     font-size: var(--radarBlipLegendBlip);      
 }
 /* #endregion */

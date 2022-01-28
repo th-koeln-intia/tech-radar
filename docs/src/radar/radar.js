@@ -126,13 +126,23 @@ function createRadar(config, entries, structure){
         ].join(' ');
     }
 
-    let arcOuterLine = (segment) => {
-        const radius = segment.outerRadius + 6;
+    let sectorNamePath = (segment) => {
+        const radius = segment.outerRadius;
         const startPoint = pointByAngleAndRadius(segment.startAngle, radius);
         const endPoint = pointByAngleAndRadius(segment.endAngle, radius);        
         return [
             'M', startPoint.x, startPoint.y,
             'A', radius, radius, 0, 0, 1, endPoint.x, endPoint.y
+          ].join(' ');
+    }
+
+    let segmentNamePath = (segment) => {
+        const endMaxPoint = pointByAngleAndRadius(segment.endAngle, segment.outerRadius);
+        const endMinPoint = pointByAngleAndRadius(segment.endAngle, segment.innerRadius);
+        return [
+            'M', endMaxPoint.x, endMaxPoint.y,
+            'L', endMinPoint.x, endMinPoint.y,
+            'Z'
           ].join(' ');
     }
 
@@ -441,9 +451,14 @@ function createRadar(config, entries, structure){
     //#endregion ************************************************************************
 
     //#region d3-components radar -------------------------------------------------------
+    /* to place text on an svg-path the attribute alignment-baseline has been used, 
+    the options of this attribute are well explained here
+    https://vanseodesign.com/web-design/svg-text-baseline-alignment/
+    */    
     let makeSector = (selection) => {
         selection           
             .attr(`id`, sector => `${sector.idText}`)
+            .classed(`sector`, true)
             .on(`mouseover`, sector => focusSector(sector))
             .on(`mouseout`, focusAllSector)
             .on(`click`, sector => { 
@@ -454,14 +469,15 @@ function createRadar(config, entries, structure){
             let name = selection.append(`g`)
                 .attr(`class`, `sectorName`)
             name.append(`path`)
-                .attr(`id`, data => `${data.idText}_name`)
-                .attr(`d`, data => arcOuterLine(data.segments[data.segments.length-1]))
+                .attr(`id`, sector => `${sector.idText}_name`)
+                .attr(`d`, sector => sectorNamePath(sector.segments[sector.segments.length-1]))
                 .attr(`fill`, `none`);
             name.append(`text`).append(`textPath`)
-                .attr(`href`, data => `#${data.idText}_name`, `http://www.w3.org/1999/xlink`)
+                .attr(`href`, sector => `#${sector.idText}_name`, `http://www.w3.org/1999/xlink`)
+                .attr(`alignment-baseline`, `after-edge`)
                 .attr(`startOffset`, `50%`)
                 .attr(`style`, `text-anchor:middle;`)
-                .text(data => data.name);
+                .text(sector => sector.name);
         }                           
     }    
 
@@ -473,6 +489,29 @@ function createRadar(config, entries, structure){
                 .classed(`radarLines`, true)                     
                 .attr(`d`, segment => arc(segment))
                 .attr(`fill`, segment => segment.color);
+
+        if(config.segment.showName){
+            let name = selection.append(`g`)
+                .classed(`segmentName`, true);
+            name.append(`path`)
+                .attr(`id`, segment => `${segment.idText}_namePath`)
+                .attr(`d`, segment => segmentNamePath(segment))
+                .attr(`fill`, `none`);
+            name.append(`text`).append(`textPath`)
+                .attr(`href`, segment => `#${segment.idText}_namePath`, `http://www.w3.org/1999/xlink`)
+                .attr(`alignment-baseline`, segment => 
+                    (segment.endAngle > 1.5 * Math.PI && segment.endAngle <= 2 * Math.PI || 
+                        segment.endAngle < 0.5 * Math.PI) 
+                        ? `before-edge`
+                        : `after-edge`)
+                .attr(`startOffset`, segment => 
+                    (segment.endAngle > 1.5 * Math.PI && segment.endAngle <= 2 * Math.PI || 
+                        segment.endAngle < 0.5 * Math.PI) 
+                        ? `50%`
+                        : `0%`
+                )
+                .text(segment => (config.segment.showNameAsId) ? segment.index : segment.name);
+        }   
     }
 
     let makeBlip = (selection) => {
@@ -551,7 +590,7 @@ function createRadar(config, entries, structure){
     let makeLegendRings = (selection) => {
         selection.append(`span`)
             .classed(`text`, true) 
-            .text(data => `${data.index+1}. ${data.name}`);
+            .text(data => `${data.index}. ${data.name}`);
     }
     //#endregion ------------------------------------------------------------------------
     
@@ -626,7 +665,7 @@ function createRadar(config, entries, structure){
 
     //#region generate radar ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     let sectors = d3.select(`g#${radarId}_radarContent`)
-        .selectAll(`g`)
+        .selectAll(`.sector`)
         .data(radarData.sectors)
         .enter()
         .append(`g`)
@@ -638,7 +677,7 @@ function createRadar(config, entries, structure){
         .append(`g`)
         .call(makeSegment);
 
-    let blips = segments.selectAll(`g`)
+    let blips = segments.selectAll(`.blip`)
         .data(segment => segment.blips)
         .enter()
         .append(`g`)        

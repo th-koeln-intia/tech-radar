@@ -12,8 +12,8 @@ github_username:  flnkln
 # theme: minima
 
 # Theme
-remote_theme: pmarsceill/just-the-docs
-# theme: just-the-docs
+# remote_theme: pmarsceill/just-the-docs
+theme: just-the-docs
 
 color_scheme: radar
 # search_enabled: false

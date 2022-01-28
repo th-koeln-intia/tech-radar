@@ -53,6 +53,8 @@ sector:
 segment: 
   colorGradient: true
   colorGradientLimit: 1.66
+  showName: true
+  showNameAsId: true
   padding: 4
 {% endhighlight %}
 
@@ -60,6 +62,8 @@ segment:
 | -------- | -------- | ------------ |   
 |  colorGradient | Boolean  | Steuert ob die Segment Hintergrundfarbe nach außen hin einen Farbverlauf haben soll. |
 |  colorGradientLimit | Float  | Bestimmt die Grenze des Farbverlaufs. 1,66 entspricht einer 66% helleren Farbe am äußersten Segment. 0,33 entspricht einer 66% dunkleren Farbe am äußersten Segment. |
+|  showName | Boolean  | Steuert ob die Segment Namen im Radar angezeigt werden oder nicht. |
+|  showNameAsId | Boolean  | Steuert ob anstelle der Segment Namen die Segment Nummern angezeigt werden sollen. Für den Fall, dass die Segment Namen zu Lang sind um diese Lesbar anzuzeigen. |
 |  padding | Number  | Bestimmt den Abstand der Blips vom Rand des Segments. Berücksichtigt nicht die linienbreite des Segments! |
 
 
