@@ -18,10 +18,10 @@ nav_order: 4
       
       <script>
         let config = {{ site.data.intiaRadarConfig | jsonify }};
-        let entries = {{ site.data.intiaRadarEntries | jsonify }};
         let structure = {{ site.data.intiaRadarStructure | jsonify }};
+        let entries = {{ site.data.intiaRadarEntries | jsonify }};        
        
-        createRadar(config, entries, structure);
+        createRadar(config, structure, entries);
       </script>
       
     </div>

@@ -38,14 +38,12 @@ radar:
 sector:
   useColor: false
   showName: true
-  nameOffset: 5
 {% endhighlight %}
 
 |   Name   |   Type   | Beschreibung |
 | -------- | -------- | ------------ |      
 |  useColor | Boolean  | Steuert ob der Sektor Hintergrund in den Sektorfarben dargestellt wird, oder in der Standardfarbe dargestelt wird.  |
 |  showName | Boolean  | Steuert ob der Name der Sektoren auf dem äußerstem Bogen der Sektoren angezeigt wird. |
-|  nameOffset | Number  | Bestimmung eines Offsets der Sektor Namen auf den äußeren Bogen. |
 
 
 ### Segment

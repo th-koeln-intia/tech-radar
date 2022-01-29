@@ -7,7 +7,7 @@ parent: Implementation
 
 # {{page.title}}
 
-![boundedRadius](/assets/segment_padding.svg "boundedRadius")
+![Segment Grenzen](/assets/segment_padding.svg "Segment Grenzen")
 
 Auf dieser Seite werde ich darauf eingehen, wie Blips in ihrem Segment bleiben. Auch mit einem Einstellbaren Abstand zum Rand des Segments.
 
@@ -26,7 +26,7 @@ $$
 
 ## Begrenzung durch den Radius
 
-![boundedRadius](/assets/boundedRadius.svg "boundedRadius")
+![Begrenzung durch Radius](/assets/boundedRadius.svg "Begrenzung durch Radius")
 
 Die Begrenzung durch den Radius ist sehr simpel. Jedes Segment ist ein Teil eines Rings im Radar, ein Ring hat einen inneren- und äußeren Radius. 
 
@@ -39,15 +39,19 @@ Da ein Segment ein Teil eines Ringes ist „erbt“ das Segment diese Eigenschaf
 
 ## Begrenzung durch den Winkel
 
-![boundedAngle](/assets/boundedAngle.svg "boundedAngle")
+![Begrenzung durch Winkel](/assets/boundedAngle.svg "Begrenzung durch Winkel")
 
 Die Begrenzung durch den Winkel ist leider nicht so einfach, aber erlaubt es im Radar kleinere oder größere Sektoren zu haben und nicht nur Quadranten.
 
-Die Winkel Grenze kann nicht wie bei der Begrenzung durch den Radius für einen Sektor festgelegt werden sondern muss abhängig von dem aktuellen Radius des Blips berechnet werden. 
+Die Winkel Grenze kann nicht wie bei der Begrenzung durch den Radius für einen Sektor festgelegt werden sondern muss abhängig von dem aktuellen Radius eines Blips berechnet werden. 
+
+![Begrenzung durch festen Winkel](/assets/boundedAngle1.svg "Begrenzung durch festen Winkel")
+
+Würde man die Winkelgrenze vorher festlegen, würde der Abstand zum Segment Rand nach außen hin immer größer werden wie im oberen Bild zu sehen ist.
 
 Den Abstandwinkel den ein Bilp im Segment haben darf lässt sich mit hilfe eines rechtwinkligen Dreiecks berechen (Pythagoras).
 
-![offsetAngle](/assets/offsetAngle.svg "offsetAngle")
+![Berechnung des Abstandwinkels](/assets/offsetAngle.svg "Berechnung des Abstandwinkels")
 
 Der Winkel kann berechnet werden, wenn man die beiden Katheten a und b kennt. 
 - a ist der blipRadius (kann mit Hilfe der X- und Y-Koordinaten  berechnet werden). 

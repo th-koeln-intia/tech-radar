@@ -38,9 +38,9 @@ Im Rahmen dieses Projekts wird das Radar in einer Jekyll-Seite dargestellt und b
 {% highlight html %}
 <script>{% raw %} 
     var config = {{ site.data.intiaRadarConfig | jsonify }};
-    var entries = {{ site.data.intiaRadarEntries | jsonify }};
     var structure = {{ site.data.intiaRadarStructure | jsonify }};
+    var entries = {{ site.data.intiaRadarEntries | jsonify }};
     {% endraw %}
-    createRadar(config, entries, structure);
+    createRadar(config, structure, entries);
 </script>
 {% endhighlight %}

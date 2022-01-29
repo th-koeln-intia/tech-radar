@@ -1,7 +1,7 @@
 /* 
 all occurring angles are in radian 
 */
-function createRadar(config, entries, structure){   
+function createRadar(config, structure, entries){   
     //#region variable definition #######################################################
     const 
         radarId = config.radar.id,
@@ -139,10 +139,17 @@ function createRadar(config, entries, structure){
     let segmentNamePath = (segment) => {
         const endMaxPoint = pointByAngleAndRadius(segment.endAngle, segment.outerRadius);
         const endMinPoint = pointByAngleAndRadius(segment.endAngle, segment.innerRadius);
+
+        if(segment.endAngle > 1.5 * Math.PI && segment.endAngle <= 2 * Math.PI || 
+            segment.endAngle < 0.5 * Math.PI){
+                return [
+                    'M', endMinPoint.x, endMinPoint.y,
+                    'L', endMaxPoint.x, endMaxPoint.y
+                  ].join(' ');
+        }
         return [
             'M', endMaxPoint.x, endMaxPoint.y,
-            'L', endMinPoint.x, endMinPoint.y,
-            'Z'
+            'L', endMinPoint.x, endMinPoint.y
           ].join(' ');
     }
 
@@ -504,12 +511,8 @@ function createRadar(config, entries, structure){
                         segment.endAngle < 0.5 * Math.PI) 
                         ? `before-edge`
                         : `after-edge`)
-                .attr(`startOffset`, segment => 
-                    (segment.endAngle > 1.5 * Math.PI && segment.endAngle <= 2 * Math.PI || 
-                        segment.endAngle < 0.5 * Math.PI) 
-                        ? `50%`
-                        : `0%`
-                )
+                .attr(`startOffset`,`50%`)                
+                .attr(`style`, `text-anchor:middle;`)
                 .text(segment => (config.segment.showNameAsId) ? segment.index : segment.name);
         }   
     }

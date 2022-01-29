@@ -16,7 +16,7 @@ Um die Lesbarkeit und Wartbarkeit dieser langen Datei dennoch zu gewährleisten,
 ## Gliederung der Regionen
 
 ### 1. Deklarierung von Konstanten und Variablen (###)
-Hier werden Konstanten definiert oder berechnet, die im ganzen Script immer gleichbleiben und somit nur einmal berechnet werden.
+Hier werden Konstanten definiert oder berechnet, die im ganzen Script immer gleichbleiben und somit nur einmal berechnet werden. Und ein paar Variablen zum zählen oder speichern der Radar Daten.
 
 
 ### 2. Helper Funktionen (~~~)
@@ -50,7 +50,7 @@ Hier werden die Daten aus den übergebenen JSON-Objekten aufbereitet. Die Aufber
 Hier wird das `<div>`-Grundgerüst erstellt um später in diesen `<div>`-Tags Komponenten erstellen zu können.
 
 ### 5. Event Funktionen (***)
-Dieser Bereich ist weiter unterteilt in:
+Hier befinden sich Event Funktionen beispielsweise für klick oder hover Events der Elemente im Radar. Dieser Bereich ist weiter unterteilt in:
 - Generelle Event Funktionen.
 - Sektor Event Funktionen.
 - Ring Event Funktionen.
@@ -68,6 +68,7 @@ Dieser Bereich ist weiter unterteilt in:
 
 
 ### 7. Elemente generierung (+++)
+Hier werden alle Radar Komponenten generiert und beispielsweise die Daten eines Sektors an den generierten `<div>`-Tag für den Sektor gebunden.
 Dieser Bereich ist weiter unterteilt in:
 - Generierung des Selektion Dropdowns
 - Generierung des Radars
@@ -75,4 +76,4 @@ Dieser Bereich ist weiter unterteilt in:
 - Generierung der Radar Blip Legende
 
 ### 8. Simulation (%%%)
-In diesem Bereich befindet sich die D3-Kollisionssimulation 
+In diesem Bereich befindet sich die D3-Kollisionssimulation. 

@@ -10,7 +10,7 @@ Auf dieser Seite bekommen Sie einen Überblick über die Verwendung, Konfigurati
 ## Projekt Kontext
 Dieses Projekt ist ein Unterprojekt der INTIA-Plattform, dort werden Ideen zur partizipativen und inklusiven Technik-entwicklung präsentiert werden. Auf dieser Plattform soll das Radar als Methoden-Radar zu Orientierung für Methoden in künftige Projekte dienen.
 
-_Das Radar ist Data-Radar benannt worden, weil durch die Konfigurationsmögllichkeiten vom Radar ist die Darstellung nicht nur auf Methoden beschränkt._
+_Das Radar ist 'Data-Radar' benannt worden, weil durch die Konfigurationsmögllichkeiten vom Radar ist die Darstellung nicht nur auf Methoden beschränkt._
 
 Der Anfangsaustand des Projekts basiert auf dem [Zalando Tech Radar][zalando-tech-radar]. Mit diesem Radar zeigt Zalando im 6 Monats Abstand Technologie Trend in deren Projekten. 
 
