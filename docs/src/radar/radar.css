@@ -1,248 +1,315 @@
 :root {
 /* Generel */
-  --fontFamily: "Arial";
-  --borderRadius: 0.5rem;
-  --lineWidth: 1; 
+    --fontFamily: "Arial";
+    --borderRadius: 0;
+    --lineWidth: 1; 
+    --spacing: 0.5rem;
+    --textPadding: 0.25em;
+    --dropdownBoxShadow: 0 5px 20px rgba(0,0,0,0.1);
 /* FontSizes */
-  --radarHeadline: 34px;  
-  --radarSelectionButton: 16px;
-  --radarSectorHeadline: 24px;
-  --radarSegmentHeadline: 18px;
-  --radarRingHeadline: 18px;
-  --radarLegendHeadline: 14px;
-  --radarLegendSubHeadline: 12px;
-  --radarLegendFontSize: 12px;
-  --radarBlipLegendSectorHeadline: 14px;
-  --radarBlipLegendSegmentHeadline: 12px;
-  --radarBlipLegendBlipText: 10px;
+    --radarDropdown: 16px;
+    --radarCardTitle: 16px;
+    --radarCardItem: 14px;
+    --radarName: 30px;  
+    --radarSelectionButton: 14px;
+    --radarSectorName: 16px;
+    --radarSegmentName: 11px;
+    --radarLegendCardItemText: 14px;
+    --radarBlipLegendSector: 14px;
+    --radarBlipLegendSegment: 12px;
+    --radarBlipLegendBlip: 10px;
 /* Colors */
-  --primaryFontColor: #424242;
-  --secondaryFondColor: #ecf0f1;
-  --elementsBackgroundColor: #fff;
-  --buttonHoverColor: #ecf0f1;
-  --lineColor: #8395a7;
-  --bubbleColor: #646464;
+    --primaryFontColor: #000000;
+    --secondaryFontColor: #ffffff;
+    --cardBackgroundColor: #ffffff;
+    --buttonHoverColor: #ecf0f1;
+    --lineColor: rgba(178, 190, 195,1.0);
+    --bubbleColor: rgba(178, 190, 195,1.0);
 }  
-  
-.radarDiv {
-  background-color: rgb(250, 250, 250);
-  border-radius: var(--borderRadius);
-  padding: 0.5rem;
+
+/* #region div structur */
+.radarContainer {
+    display: grid;
+    grid-template:
+        'radarTitle'
+        'radarSelection'
+        'radar'
+        'radarBlipLegend';
+    grid-gap: var(--spacing);
+    /* background-color: rgb(250, 250, 250); */
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: var(--borderRadius);
+    padding: var(--spacing);
+    font-family: var(--fontFamily);
+    fill: var(--primaryFontColor);    
 } 
-
-.radarHeadlineDiv {
-  font-family: var(--fontFamily);
-  font-size: var(--radarHeadline);
-  fill: var(--primaryFontColor);
-  padding: 0rem 0.5rem;
-  border-radius: var(--borderRadius);
-  background-color: var(--elementsBackgroundColor);
+.radarTitle {
+    grid-area: radarTitle;
+    font-size: var(--radarName);
+    padding: var(--textPadding);
+    border-radius: var(--borderRadius);
+    background-color: var(--cardBackgroundColor);
 }
-
-/* #region radarSelectionDiv ------------------------------------------ */
-.radarSelectionDiv{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-  gap: 0.5rem;
-  margin: 0.5rem 0rem;
+.radarSelection{
+    grid-area: radarSelection;
 }
-.radarSelectionDiv .selectionButton{
-  font-family: var(--fontFamily);
-  font-size: var(--radarSelectionButton);
-  fill: var(--primaryFontColor);
-  text-align: center;
-  user-select: none;
-  padding: 0px 8px;
-  border-radius: var(--borderRadius);
-  background-color: var(--elementsBackgroundColor);
+.radar{
+    grid-area: radar;
+    background-color: var(--cardBackgroundColor);
+    border-radius: var(--borderRadius);
+    padding: var(--spacing);
+    height: min-content;
 }
-.radarSelectionDiv .selectionButton:hover{
-  background-color: var(--buttonHoverColor);
+.radarLegend{
+    margin-top: var(--spacing);
+}
+.radarBlipLegend{
+    overflow: auto;
+    grid-area: radarBlipLegend;
+    display: grid;
+    grid-auto-rows: min-content;
+    gap: var(--spacing);
 }
 /* #endregion */
 
-/* #region radarSvgDiv ------------------------------------------------ */
-.radarSvgDiv{
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  padding-bottom: 100%;
-  vertical-align: top;
-  overflow: hidden;
-  border-top-left-radius: var(--borderRadius);
-  border-top-right-radius: var(--borderRadius);
-  background-color: var(--elementsBackgroundColor);
+/* #region dropdown */
+.radarContainer .dropdown{
+    position: relative;
+    border-radius: var(--borderRadius);
+    padding: var(--textPadding);
+    user-select: none;
+    cursor: pointer;
+    background-color: var(--cardBackgroundColor);
+    font-size: var(--radarDropdown);
+}
+.radarContainer .dropdown:hover{
+    background-color: var(--buttonHoverColor);
+}
+/* dropdown arrow */
+.radarContainer .dropdown::before{
+    content: '';
+    position: absolute;
+    right: calc(var(--textPadding) * 2);
+    top: calc(var(--textPadding) * 2);
+    z-index: 10000;
+    width: calc(var(--radarDropdown) / 2);
+    height: calc(var(--radarDropdown) / 2);
+    border: 2px solid var(--primaryFontColor);
+    border-top: 2px solid rgba(0,0,0,0);
+    border-right: 2px solid rgba(0,0,0,0);
+    transform: rotate(-45deg);
+    transition: 250ms;
+}
+.radarContainer .dropdown.active::before{
+    top: calc(var(--textPadding) * 3);
+    transform: rotate(135deg);
+}
+.radarContainer .dropdownText{
+    width: 100%;
+    height: 100%;
+}
+.radarContainer .dropdown .dropdownContent{
+    position: absolute;
+    display: none;
+    user-select: none;
+    z-index: 10000;
+    border-radius: var(--borderRadius);
+    box-shadow: var(--dropdownBoxShadow);
+    background-color: var(--cardBackgroundColor);
+    width: 100%;
+    left: 0;
+    margin-top: var(--spacing);
+}
+.radarContainer .dropdown.active .dropdownContent{
+    display: block;
+}
+/* #endregion */
+
+/* #region card */
+.radarContainer .card{
+    padding: var(--spacing);
+    background-color: var(--cardBackgroundColor);  
+    border-radius: var(--borderRadius);
+}
+.radarContainer .subCard{
+    padding: 0; 
+    border-radius: var(--borderRadius);
+}
+.radarContainer .cardTitle{
+    padding: var(--textPadding);
+    font-size: var(--radarCardTitle);
+    font-weight: bold;
+}
+.radarContainer .cardItem{
+    position: relative;    
+    border-radius: var(--borderRadius);
+    padding:  var(--textPadding);
+    cursor: pointer;
+}
+.radarContainer .cardItem:hover{
+    background-color: var(--buttonHoverColor);
+}
+.radarContainer .cardItem.active{
+    background-color: var(--buttonHoverColor);
+}
+.radarContainer .cardItem .text{
+    font-size: var(--radarCardItem);
+    font-weight: lighter;
+    text-decoration: none;
 }
 
-.radarSvgDiv .radarSVG{
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0; 
-  margin: 8px;  
-  overflow: visible;
+/* #endregion */
+
+/* #region radarSelection ------------------------------------------ */
+.radarContainer .radarSelection{
+    text-align: center;
 }
-/* #region Text ------------------------------------------------------- */
-.sectorHeadline{
-  font-family: var(--fontFamily);
-  font-size: var(--radarSectorHeadline);
-  font-weight: bold;
-  fill: var(--primaryFontColor);
-  pointer-events: none;
-  user-select: none;
+.radarContainer .selectionButton{
+    font-size: var(--radarSelectionButton);
+    text-align: center;
+    user-select: none;
+    padding: var(--textPadding);
+    border-radius: var(--borderRadius);
+    background-color: var(--cardBackgroundColor);
+}
+.radarContainer .selectionButton:hover{
+    background-color: var(--buttonHoverColor);
+}
+/* #endregion */
+
+/* #region radar ------------------------------------------------ */
+.radarContent{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: visible;
+    border-top-left-radius: var(--borderRadius);
+    border-top-right-radius: var(--borderRadius);
+    background-color: var(--cardBackgroundColor);
 }  
-.segmentHeadline{
-  font-family: var(--fontFamily);
-  font-size: var(--radarSegmentHeadline);
-  font-weight: bold;
-  fill: var(--lineColor);    
-  text-anchor: middle;
-  pointer-events: none;
-  user-select: none;
+.radarContent .radarSVG{
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0; 
+    /* margin: 8px;   */
+    overflow: visible;
+}  
+ 
+/* #region Text ------------------------------------------------------- */
+.sectorName{
+font-size: var(--radarSectorName);
+font-weight: bold;
+pointer-events: none;
+user-select: none;
+}  
+.radarContent .segmentName{
+    font-size: var(--radarSegmentName);
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
 }
-.ringHeadline{
-  font-family: var(--fontFamily);
-  font-size: var(--radarRingHeadline);
-  font-weight: bold;
-  fill: var(--lineColor);
-  text-anchor: middle;
-  pointer-events: none;
-  user-select: none;
-}
+
 .methodStatesText {
-  font-family: var(--fontFamily);    
-  fill: var(--primaryFontColor);
-  vertical-align: middle;
-  pointer-events: none;
-  user-select: none;
+vertical-align: middle;
+pointer-events: none;
+user-select: none;
 }
 .blipText {
-  /* font-size scales by blipSize set in config-File */
-  font-family: var(--fontFamily);
-  font-weight: bold;
-  fill: var(--secondaryFondColor);
-  pointer-events: none;
-  user-select: none;    
+/* font-size scales by blipSize set in config-File */
+font-weight: bold;
+/* fill: var(--secondaryFontColor); */
+fill: white;
+pointer-events: none;
+user-select: none;    
 }
 .bubbleText {
-  /* font-size scales by blipSize set in config-File */
-  font-family: var(--fontFamily);
-  fill: var(--secondaryFondColor);
+/* font-size scales by blipSize set in config-File */
+fill: var(--secondaryFontColor);
 }
 /* #endregion */
-.bubble {
-  opacity: 0;
-  pointer-events: none;
-  user-select: none;
+
+.radarBubble{    
+    pointer-events: none;
+    user-select: none;
 }
-.bubbleBackgroundColor {
-  fill: var(--bubbleColor);
+.radarBubble .background{
+    fill: var(--bubbleColor);
 }
 .radarLines{
-  stroke-width: var(--lineWidth);
-  stroke: var(--lineColor);
+    stroke-width: var(--lineWidth);
+    stroke: var(--lineColor);
 }  
-/* #endregion */
-
-/* #region radarLegendDiv --------------------------------------------- */
-.radarLegendDiv{
-  background-color: var(--elementsBackgroundColor);
-  margin-bottom: 0.5rem;
-  border-bottom-left-radius: var(--borderRadius);
-  border-bottom-right-radius: var(--borderRadius);
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-.radarLegendDiv .headline{
-  font-family: var(--fontFamily);
-  font-size: var(--radarLegendHeadline);
-  font-weight: bold;
-  user-select: none;
-}
-.radarLegendDiv .headline:hover{
-  background-color: var(--buttonHoverColor);
-}  
-.radarLegendDiv .content{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  grid-auto-rows: minmax(auto, auto);
-  gap: 0.5rem;
-}
-.radarLegendDiv .content .subHeadline{
-  font-family: var(--fontFamily);
-  font-size: var(--radarLegendSubHeadline);
-  box-shadow: 0px 2px  rgb(235, 235, 235);
-  margin-bottom: 4px;
-  border-bottom-width: 1px;
-}  
-.radarLegendDiv .stateDiv{
-  display: flex;
-  align-items: center;
-  
-}
-.radarLegendDiv .stateDiv .colorCode{
-  height: var(--radarLegendFontSize);
-  width: var(--radarLegendFontSize);
-  border-radius: 50%;
-  display: inline-block;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-.radarLegendDiv .stateDiv .text{
-  font-family: var(--fontFamily);
-  font-size: var(--radarLegendFontSize);
-  padding-left: 0.25rem;  
-} 
-.radarLegendDiv .ringLegendDiv .text{
-  font-family: var(--fontFamily);
-  font-size: var(--radarLegendFontSize);
+.radarContainer .blip{
+    cursor: pointer;
 }
 /* #endregion */
 
-/* #region radarBlipLegendDiv ----------------------------------------- */
-  .radarBlipLegendDiv{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    grid-auto-rows: minmax(auto, 15rem);
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-  }
-  .radarBlipLegendDiv .sectorDiv{
+/* #region radarLegend --------------------------------------------- */
+.radarLegend .dropdownContent{
+    height: 14rem;
     overflow: auto;
-    padding: 0.5rem;
-    border-radius: var(--borderRadius);
-    background-color: var(--elementsBackgroundColor);    
-    min-width: max-content;    
-    user-select: none;
-  }
-  .radarBlipLegendDiv .sectorDiv .headline{
-    font-family: var(--fontFamily);
-    font-size: var(--radarBlipLegendSectorHeadline);
+}
+.radarLegend .paddingText{
+    font-size: var(--radarLegendCardItemText);
+    padding-left: calc(var(--radarLegendCardItemText) + var(--textPadding));
+    font-weight: lighter;
+    text-decoration: none;
+}
+.radarLegend .stateColor{
+    position: absolute;
+    top: 25%;
+    width: var(--radarLegendCardItemText);
+    height: var(--radarLegendCardItemText);
+    border-radius: 50%;
+}
+.radarLegend .movementIndicator{
+    position: absolute;
+    top: 25%;
+    width: var(--radarLegendCardItemText);
+    height: var(--radarLegendCardItemText);
+    border: 2px solid black;
+    border-radius: 50%;    
+    transform: rotate(90deg);
+}
+.radarLegend .movementIndicator.in{
+    border-left: 2px solid rgba(0,0,0,0.25);
+    border-right: 2px solid rgba(0,0,0,0.25);
+    border-bottom: 2px solid rgba(0,0,0,0.25);
+}
+.radarLegend .movementIndicator.out{
+    border-left: 2px solid rgba(0,0,0,0.25);
+    border-right: 2px solid rgba(0,0,0,0.25);
+    border-top: 2px solid rgba(0,0,0,0.25);
+}
+/* #endregion */
+  
+/* #region radarBlipLegend ----------------------------------------- */    
+.radarContainer .blipLegendSector{
+    font-size: var(--radarBlipLegendSector);
     font-weight: bold;
-  } 
-  .radarBlipLegendDiv .sectorDiv .segmentDiv{
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
-  }
-  .radarBlipLegendDiv .sectorDiv .segmentDiv .headline{
-    font-family: var(--fontFamily);
-    font-size: var(--radarBlipLegendSegmentHeadline);
-    margin: 0;
-    font-weight:lighter;
-  }
-  .radarBlipLegendDiv .sectorDiv .segmentDiv .blipList{
-    margin: 0;
-    list-style: none;
-  }
-  .radarBlipLegendDiv .sectorDiv .segmentDiv .blipList .item{
-    font-family: var(--fontFamily);
-    font-size: var(--radarBlipLegendBlipText);
-    font-weight:lighter;
-    padding: 0rem 0.5rem;
-    border-radius: var(--borderRadius);
-  }
-  .radarBlipLegendDiv .sectorDiv .segmentDiv .blipList .itemHover{
-    background-color: var(--buttonHoverColor);
-  }
-  /* #endregion */
+}
+.radarContainer .blipLegendSegment{
+    font-size: var(--radarBlipLegendSegment);
+    font-weight: lighter;
+}
+.radarContainer .blipLegendBlip{
+    user-select: none;
+    font-size: var(--radarBlipLegendBlip);      
+}
+/* #endregion */
+
+/* for tablet or desktop */
+@media screen and (min-width: 800px){
+    .radarContainer{
+        display: grid;
+        grid-template:
+            'radarTitle radarTitle'
+            'radarSelection radarSelection'
+            'radarBlipLegend radar';
+        grid-template-columns: 0.4fr 0.6fr;
+        grid-template-rows: min-content min-content 0fr;
+    }    
+}

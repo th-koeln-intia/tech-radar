@@ -1,0 +1,60 @@
+
+<article class="post">
+
+    <header class="post-header">
+      <script src="https://d3js.org/d3.v5.min.js"></script> 
+      <!-- <script src="https://raw.githubusercontent.com/flnkln/flnkln.github.io/master/docs/src/radar/radar.js"></script> -->
+      <script src="https://flnkln.github.io/src/radar/radar.js"></script>
+      <link rel="stylesheet" href="https://flnkln.github.io/src/radar/radar.css" />
+    </header>
+  
+    <div class="post-content">   
+      <h1>{{page.title}}</h1>
+
+      Auf dieser Seite kann man das Radar Testen, z.B. wie und was die einzelnen Sachen in der Konfigurations Datei machen.
+
+      Im folgenden sind die Drei Dateinen als JSON editierbar.
+
+      <h3>Konfigurations Datei:</h3>
+      <textarea id="configInput" style="width: 100%; min-height: 12rem; max-height: 24rem; resize: vertical;"></textarea>
+
+      <h3>Struktur Datei:</h3>
+      <textarea id="structurInput" style="width: 100%; min-height: 12rem; max-height: 24rem; resize: vertical;"></textarea>
+
+      <h3>Einträge Datei:</h3> 
+      <textarea id="entriesInput" style="width: 100%; min-height: 12rem; max-height: 24rem; resize: vertical;"></textarea>
+
+      <button id="testBtn">Testen</button>
+
+      <div id="intiaRadar"></div>
+      
+      <script>
+        let config = {{ site.data.intiaRadarConfig | jsonify }};
+        let configInput = document.getElementById("configInput");
+        configInput.value = JSON.stringify(config, "    ", " ");
+
+        let structur = {{ site.data.intiaRadarStructure | jsonify }};
+        let structurInput = document.getElementById("structurInput");
+        structurInput.value = JSON.stringify(structur, "    ", " ");
+
+        let entries = {{ site.data.intiaRadarEntries | jsonify }};
+        let entriesInput = document.getElementById("entriesInput");
+        entriesInput.value = JSON.stringify(entries, "    ", " ");
+
+        let testBtn = document.getElementById("testBtn");
+        testBtn.addEventListener("click", ()=>{          
+            try{
+                let testConfig = JSON.parse(configInput.value);
+                let testStructur = JSON.parse(structurInput.value);
+                let testEntries = JSON.parse(entriesInput.value);
+                createRadar(testConfig, testEntries, testStructur);
+            }catch(err){
+                alert("JSON Syntax Error!\nReload Page for working JSON");
+            }        
+        });
+      </script>
+      
+    </div>
+  
+</article>
+

@@ -1,9 +1,8 @@
 ---
-title: Radar skalierung
+title: SVG-Skalierung
 layout: default
-nav_order: 3
-grand_parent: Dokumentation
-parent: Aufbau
+nav_order: 4
+parent: Implementation
 ---
 
 # {{page.title}}

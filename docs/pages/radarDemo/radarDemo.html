@@ -1,0 +1,29 @@
+---
+title: Radar Demo
+layout: default
+nav_order: 4
+---
+
+<article class="post">
+
+    <header class="post-header">
+      <script src="https://d3js.org/d3.v5.min.js"></script> 
+      <script src="/src/radar/radar.js"></script>
+      <link rel="stylesheet" href="/src/radar/radar.css" />
+    </header>
+  
+    <div class="post-content">        
+
+      <div id="intiaRadar"></div>
+      
+      <script>
+        let config = {{ site.data.intiaRadarConfig | jsonify }};
+        let structure = {{ site.data.intiaRadarStructure | jsonify }};
+        let entries = {{ site.data.intiaRadarEntries | jsonify }};        
+       
+        createRadar(config, structure, entries);
+      </script>
+      
+    </div>
+  
+  </article>
