@@ -5,6 +5,10 @@ sectors:
     color: '#e74c3c'
   - name: 'Discover'
     color: '#9b59b6'
+  - name: 'Discover'
+    color: '#9b59b6'
+  - name: 'Discover'
+    color: '#9b59b6'
  
   
 rings:
@@ -16,14 +20,6 @@ rings:
       color: '#93d2c2'
     - name: 'Mitbestimmung'
       color: '#fbdb84'
-    - name: 'Einbeziehung'
-      color: '#efafa9'
-    - name: 'Anhörung'
-      color: '#857dc4'
-    - name: 'Information'
-      color: '#efafa9'
-    - name: 'nicht beteiligt'
-      color: '#efafa9'
 
 entryStates:
   legendTitle: 'Zustände'

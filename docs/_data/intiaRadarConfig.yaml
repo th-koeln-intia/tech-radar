@@ -4,22 +4,22 @@ radar:
   showName: true
   showAllSectorsText: 'Alle Sektoren'
   legendDropdownText: 'Legende'
-  defaultColor: 'rgba(99, 110, 114, 1.0)'
-  renderResolution: 410
+  defaultColor: 'rgba(99, 110, 114, 0.0)'
+  renderResolution: 411
 
 sector:
   useColor: false
-  showName: true
+  showName: false
   nameOffset: 5
 
 segment: 
-  colorGradient: true
+  colorGradient: false
   colorGradientLimit: 1.66
-  showName: true
+  showName: false
   showNameAsId: true
   padding: 4
 
 blip:
-  size: 22
+  size: 34
   defaultColor: '#8395a7'
   margin: 2
