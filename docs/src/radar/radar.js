@@ -12,9 +12,8 @@ function createRadar(config, structure, entries){
         blipRadiusWithPadding = config.blip.size / 2 + config.segment.padding,
         firstRingBlipMinRadius = blipRadiusWithPadding / Math.sin(sectorThickness / 2);
     
-    const 
-        fillingRatio = Math.PI / Math.sqrt(18), // ~0.74
-        angleRatio = sectorThickness / (2 * Math.PI);
+    const fillingRatio = Math.PI / Math.sqrt(18); // ~0.74
+
 
     let 
         radarData={}, // object to save all radar data
@@ -197,9 +196,9 @@ function createRadar(config, structure, entries){
                 colorStart = d3.rgb(colorCode);
                 colorEnd = d3.rgb(colorCode);
                 break;
-            default:
+            default:                
                 colorStart = d3.rgb(config.radar.defaultColor);
-                colorEnd = d3.rgb(config.radar.defaultColor);    
+                colorEnd = d3.rgb(config.radar.defaultColor);  
         }        
         return d3.scaleLinear()
                     .domain([0, structure.rings.list.length])
@@ -245,108 +244,38 @@ function createRadar(config, structure, entries){
 
 
 
-    // // create data structure ----------------------------------------------------------
-    // radarData.rings = structure.rings.list.map((ring, index) => ({
-    //     ...ring,
-    //     index: index,
-    // }));
-    // radarData.sectors = structure.sectors.map((sector, index) => ({
-    //     ...sector,
-    //     id: index,
-    //     idText: `${radarId}_sector${index}`,
-    //     color: getSectorColorPalette(sector.color), 
-    //     segments: radarData.rings,
-    // }));
-    // radarData.sectors.forEach(sector => {
-    //     sector.segments = sector.segments.map((segment, index) => ({
-    //         ...segment,
-    //         idText: `${sector.idText}_segment${index}`,
-    //         color: sector.color(index),
-    //         blips: entries.filter(entry => 
-    //                         entry.sectorID == sector.id && 
-    //                         entry.ringID == index && 
-    //                         entry.active) 
-    //                     .sort((a, b) => a.name.localeCompare(b.name)),
-    //     }))
-    // });
-    // // --------------------------------------------------------------------------------
-    // // adding ring radii and ring thickness -----------------------------------------
-    // radarData.rings.forEach((ring, index) => {
-    //     ring.innerRadius = (index == 0) ? 0 : radarData.rings[index - 1].outerRadius;
-    //     let ringMaxOuterRadius = radarData.sectors.reduce((prev, curr) => 
-    //         Math.max(prev, calcOuterRadius(ring.innerRadius, sectorThickness, curr.segments[index].blips.length))
-    //     , 0);
-    //     ring.outerRadius = ringMaxOuterRadius;
-    //     ring.thickness = ring.outerRadius - ring.innerRadius;
-    // });
-    // /* if the last outer radius is larger or smaller than the given radar radius, the rings must be 
-    // adjusted in such a way that any open space is evenly filled or any space that overlaps is evenly 
-    // subtracted from all ring thicknesses. */
-    // let ringsLastOuterRadius = radarData.rings[radarData.rings.length - 1].outerRadius;
-    // let ringThicknessCorrection = (ringsLastOuterRadius - radius) / radarData.rings.length;
-    // radarData.rings.forEach((ring, index) => {
-    //     ring.thickness = (ringThicknessCorrection >= 0)
-    //         ? ring.thickness - ringThicknessCorrection
-    //         : ring.thickness + Math.abs(ringThicknessCorrection);
-    //     ring.innerRadius = (index == 0) ? 0 : radarData.rings[index - 1].outerRadius;
-    //     ring.outerRadius = ring.innerRadius + ring.thickness;
-    // });
-    // // TODO blip min max radii after sector calc
-    // // ------------------------------------------------------------------------------
-
-
-
-
-
-
-    // adding inner and outer radius for each ring
+    // create data structure ----------------------------------------------------------
     radarData.rings = structure.rings.list.map((ring, index) => ({
         ...ring,
         index: index,
-        innerRadius: ringThickness * index,
-        blipMinRadius: (index==0) 
-            ? firstRingBlipMinRadius 
-            : ringThickness * index + blipRadiusWithPadding,
-        outerRadius: ringThickness * ++index,        
-        blipMaxRadius: ringThickness * index - blipRadiusWithPadding,
     }));
-
-    // generate equal circle pieces 
     radarData.sectors = structure.sectors.map((sector, index) => ({
         ...sector,
         id: index,
         idText: `${radarId}_sector${index}`,
-        startAngle: sectorThickness * index,
-        endAngle: sectorThickness * ++index,
-        color: getSectorColorPalette(sector.color),               
+        color: getSectorColorPalette(sector.color), 
         segments: radarData.rings,
-    }))
-    // adding sector data to segments
+    }));
     radarData.sectors.forEach(sector => {
         sector.segments = sector.segments.map((segment, index) => ({
             ...segment,
             idText: `${sector.idText}_segment${index}`,
-            endAngle: sector.endAngle,
-            startAngle: sector.startAngle,
             color: sector.color(index),
-            blips: entries
-                        .filter(entry => 
+            blips: entries.filter(entry => 
                             entry.sectorID == sector.id && 
                             entry.ringID == index && 
                             entry.active) 
-                        .sort((a, b) => a.name.localeCompare(b.name))        
+                        .sort((a, b) => a.name.localeCompare(b.name)),
         }))
     });
-
-    // NEW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // calc inner, outer and thickness for each ring
+    // --------------------------------------------------------------------------------
+    // adding ring radii and ring thickness -----------------------------------------
     radarData.rings.forEach((ring, index) => {
         ring.innerRadius = (index == 0) ? 0 : radarData.rings[index - 1].outerRadius;
-        let ringMaxOuterRadius = radarData.sectors.reduce((prev, curr) => 
+        ring.outerRadius = radarData.sectors.reduce((prev, curr) => 
             Math.max(prev, calcOuterRadius(ring.innerRadius, sectorThickness, curr.segments[index].blips.length))
         , 0);
-        ring.outerRadius = ringMaxOuterRadius;
-        ring.thickness = ring.outerRadius - ring.innerRadius;
+        ring.radiusThickness = ring.outerRadius - ring.innerRadius;
     });
     /* if the last outer radius is larger or smaller than the given radar radius, the rings must be 
     adjusted in such a way that any open space is evenly filled or any space that overlaps is evenly 
@@ -354,28 +283,49 @@ function createRadar(config, structure, entries){
     let ringsLastOuterRadius = radarData.rings[radarData.rings.length - 1].outerRadius;
     let ringThicknessCorrection = (radius - ringsLastOuterRadius) / radarData.rings.length;
     radarData.rings.forEach((ring, index) => {
-        ring.thickness = ring.thickness + ringThicknessCorrection;
+        ring.radiusThickness = ring.radiusThickness + ringThicknessCorrection;
         ring.innerRadius = (index == 0) ? 0 : radarData.rings[index - 1].outerRadius;
-        ring.outerRadius = ring.innerRadius + ring.thickness;
+        ring.outerRadius = ring.innerRadius + ring.radiusThickness;
+    });
+    // update segments
+    radarData.sectors.forEach(sector => {
+        sector.segments = sector.segments.map((segment, index) => ({
+            ...segment,
+            radiusThickness: radarData.rings[index].radiusThickness,
+            innerRadius: radarData.rings[index].innerRadius,
+            outerRadius: radarData.rings[index].outerRadius,
+        }))
     });
 
-
-    // add needed min angle span for sectors
+    // add needed min angle span for each sector
     radarData.sectors.forEach((sector) => {
         sector.angleSpan = sector.segments.reduce((prev, curr) =>             
             Math.max(prev, calcAngle(curr.innerRadius, curr.outerRadius, curr.blips.length))            
         , 0);
     });
+    // add up all sector angle spans
     let sectorAngleSpanSum = radarData.sectors.reduce((prev, curr) => prev + curr.angleSpan, 0);
     let sectorAngleCorrection = ((Math.PI * 2) - sectorAngleSpanSum) / radarData.sectors.length;
-    radarData.sectors.forEach((sector) => {
+    radarData.sectors.forEach((sector, index) => {
         sector.angleSpan = sector.angleSpan + sectorAngleCorrection;
+        sector.startAngle = (index == 0) ? 0 : radarData.sectors[index - 1].endAngle;
+        sector.endAngle = sector.startAngle + sector.angleSpan;
     });
-
     // update segments
+    radarData.sectors.forEach(sector => {
+        sector.segments = sector.segments.map((segment, index) => ({
+            ...segment,
+            angleSpan: sector.angleSpan,
+            startAngle: sector.startAngle,
+            endAngle: sector.endAngle,
+            blipMinRadius: (index == 0)
+                ? blipRadiusWithPadding / Math.sin(sector.angleSpan / 2)
+                : segment.innerRadius + blipRadiusWithPadding,
+            blipMaxRadius: segment.outerRadius - blipRadiusWithPadding
+        }))
+    })
+    // ------------------------------------------------------------------------------
 
-
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     radarData.blips = []; // list of all blips, for a better processing later on
     radarData.sectors.forEach(sector => sector.segments.forEach(segment => {
@@ -906,4 +856,6 @@ function createRadar(config, structure, entries){
 
     update();
     console.log(radarData);
+
+    
 }

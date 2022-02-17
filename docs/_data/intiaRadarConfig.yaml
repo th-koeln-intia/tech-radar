@@ -4,7 +4,7 @@ radar:
   showName: true
   showAllSectorsText: 'Alle Sektoren'
   legendDropdownText: 'Legende'
-  defaultColor: 'rgba(99, 110, 114, 0.0)'
+  defaultColor: 'rgba(255, 255, 255, 0)'
   renderResolution: 411
 
 sector:
