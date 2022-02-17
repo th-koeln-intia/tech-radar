@@ -12,6 +12,8 @@ function createRadar(config, structure, entries){
         blipRadiusWithPadding = config.blip.size / 2 + config.segment.padding,
         firstRingBlipMinRadius = blipRadiusWithPadding / Math.sin(sectorThickness / 2);
     
+    const fillingRatio = Math.PI / Math.sqrt(18);
+
     let 
         radarData={}, // object to save all radar data
         seed = 42,  // seed number for reproducible random sequence
@@ -53,6 +55,29 @@ function createRadar(config, structure, entries){
 
     let calcOffsetAngle = (radius) => 
         Math.atan(blipRadiusWithPadding / radius);
+
+    // NEW
+    let occupiedSpaceByBlips = (blipCount) => {
+        let radius = config.blip.size/2 + config.blip.margin;
+
+        // console.log("Radius",radius);
+
+        return Math.PI * Math.pow((config.blip.size/2 + config.blip.margin), 2) * blipCount; 
+    }
+        
+        
+    let calcAngleRatio = (angle) =>  angle / (2 * Math.PI);
+
+    let calcOuterRadius = (innerRadius, angle, blipCount) => {
+        let blipSpace = occupiedSpaceByBlips(blipCount);
+        let angleRatio = calcAngleRatio(angle);
+
+        // console.log(blipSpace, angleRatio)
+
+        let squareRootTerm = blipSpace / (Math.PI * angleRatio * fillingRatio) + Math.pow(innerRadius, 2);
+
+        return Math.sqrt(squareRootTerm);
+    }
     //#endregion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     //#region helper function segment borders ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -252,7 +277,33 @@ function createRadar(config, structure, entries){
                             entry.active) 
                         .sort((a, b) => a.name.localeCompare(b.name))        
         }))
+    });
+
+    // NEW !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    radarData.rings.forEach((ring, index) => {
+        ring.innerRadius = (index == 0) ? 0 : radarData.rings[index - 1].outerRadius;
+        let maxOuterRadius = 0;
+        radarData.sectors.forEach(sector => {
+            // console.log(sector.segments[index].innerRadius, sectorThickness, sector.segments[index].blips.length)
+            let maxR = calcOuterRadius(ring.innerRadius, sectorThickness, sector.segments[index].blips.length);
+            console.log(maxR);
+            maxOuterRadius = (maxR>maxOuterRadius) ? maxR : maxOuterRadius;
+        })
+        console.log("MaxRadius: ", maxOuterRadius)
+        ring.outerRadius = maxOuterRadius;
+        ring.thickness = ring.outerRadius - ring.innerRadius;
+    });
+    let ringThicknessCorrection = (radarData.rings[radarData.rings.length - 1].outerRadius - radius) / radarData.rings.length;
+    console.log(ringThicknessCorrection);
+    radarData.rings.forEach(ring => {
+        ring.thickness = (ringThicknessCorrection >= 0)
+            ? ring.thickness - ringThicknessCorrection
+            : ring.thickness + Math.abs(ringThicknessCorrection);
+        
     })
+
+
+
     radarData.blips = []; // list of all blips, for a better processing later on
     radarData.sectors.forEach(sector => sector.segments.forEach(segment => {
         // give each blip the corresponding segment functions
@@ -293,6 +344,8 @@ function createRadar(config, structure, entries){
         ...state, 
         index: index
     }));
+
+
     //#endregion ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
     //#region create div structure ______________________________________________________

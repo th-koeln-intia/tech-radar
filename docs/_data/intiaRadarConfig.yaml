@@ -1,6 +1,6 @@
 radar:
   id: 'intiaRadar'
-  name: 'INTIA Method Radar'
+  name: 'Radar Name'
   showName: true
   showAllSectorsText: 'Alle Sektoren'
   legendDropdownText: 'Legende'
