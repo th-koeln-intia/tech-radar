@@ -76,7 +76,7 @@
 .radarContainer .dropdown{
     position: relative;
     border-radius: var(--borderRadius);
-    padding: var(--textPadding);
+    /* padding: var(--textPadding); */
     user-select: none;
     cursor: pointer;
     background-color: var(--cardBackgroundColor);
@@ -302,14 +302,14 @@ fill: var(--secondaryFontColor);
 /* #endregion */
 
 /* for tablet or desktop */
-@media screen and (min-width: 800px){
+@media screen and (min-width: 600px){
     .radarContainer{
         display: grid;
         grid-template:
             'radarTitle radarTitle'
             'radarSelection radarSelection'
             'radarBlipLegend radar';
-        grid-template-columns: 0.4fr 0.6fr;
+        grid-template-columns: 0.25fr 0.75fr;
         grid-template-rows: min-content min-content 0fr;
     }    
 }

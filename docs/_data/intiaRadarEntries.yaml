@@ -28,6 +28,11 @@
   moved: 0
 
 
+
+
+
+
+
 - name: 'Dummy'
   sectorID: 4
   ringID: 0
@@ -150,6 +155,69 @@
 
 
 
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
 - name: 'Dummy'
   sectorID: 2
   ringID: 2

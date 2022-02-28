@@ -7,10 +7,8 @@ function createRadar(config, structure, entries){
         radarId = config.radar.id,
         diameter = config.radar.renderResolution,
         radius = diameter / 2,
-        ringThickness = radius / structure.rings.list.length,
         sectorThickness = 2 * Math.PI / structure.sectors.length,
-        blipRadiusWithPadding = config.blip.size / 2 + config.segment.padding,
-        firstRingBlipMinRadius = blipRadiusWithPadding / Math.sin(sectorThickness / 2);
+        blipMinSize = 34;
     
     const fillingRatio = Math.PI / Math.sqrt(18); // ~0.74
 
@@ -59,11 +57,19 @@ function createRadar(config, structure, entries){
 
     // NEW
     let occupiedSpaceByBlips = (blipCount) => {
-        let radius = config.blip.size/2 + config.blip.margin;
-        return Math.PI * Math.pow((config.blip.size/2 + config.blip.margin), 2) * blipCount; 
-    }        
-        
+        let radius = blipMinSize/2 + config.blip.margin;
+        return Math.pow(radius, 2) * Math.PI * blipCount;
+    }  
+            
     let calcAngleRatio = (angle) =>  angle / (2 * Math.PI);
+
+    let blipAreaInSegment = (segment) => {
+        let radii = Math.pow(segment.outerRadius, 2) - Math.pow(segment.innerRadius, 2)
+        return Math.PI * radii * calcAngleRatio(segment.angleSpan) * fillingRatio; 
+    }
+
+    let blipMaxRadiusInArea = (blipCount, area) => 
+        Math.sqrt(area / (Math.PI * blipCount));
 
     let calcOuterRadius = (innerRadius, angle, blipCount) => {
         let blipSpace = occupiedSpaceByBlips(blipCount);
@@ -318,13 +324,43 @@ function createRadar(config, structure, entries){
             angleSpan: sector.angleSpan,
             startAngle: sector.startAngle,
             endAngle: sector.endAngle,
+        }))
+    })
+    // ------------------------------------------------------------------------------
+
+
+
+    // ------------------------------------------------------------------------------
+    // Blip anpassung
+    let test = radarData.sectors.reduce((prev, curr) => {
+        let x = curr.segments.reduce((prev, curr) => {
+            let area = blipAreaInSegment(curr);
+            let radius = blipMaxRadiusInArea(curr.blips.length, area);
+            let diameter = (radius - config.blip.margin) * 2;
+            return Math.min(diameter, prev)
+        }, Number.MAX_VALUE)
+        return Math.min(prev, x)
+    }, Number.MAX_VALUE);
+
+    const 
+        blipSize = Math.max(test, blipMinSize),
+        blipRadiusWithPadding = blipSize / 2 + config.segment.padding;
+
+    radarData.sectors.forEach(sector => {
+        sector.segments = sector.segments.map((segment, index) => ({
+            ...segment,
             blipMinRadius: (index == 0)
                 ? blipRadiusWithPadding / Math.sin(sector.angleSpan / 2)
                 : segment.innerRadius + blipRadiusWithPadding,
             blipMaxRadius: segment.outerRadius - blipRadiusWithPadding
         }))
     })
+
     // ------------------------------------------------------------------------------
+
+    
+
+
 
 
     radarData.blips = []; // list of all blips, for a better processing later on
@@ -349,8 +385,8 @@ function createRadar(config, structure, entries){
     });
 
     // add data to the configuration of a blip to create blips later on
-    let fontSize = config.blip.size * 0.33,
-        blipRadius = config.blip.size * 0.5,
+    let fontSize = blipSize * 0.33,
+        blipRadius = blipSize * 0.5,
         strokeWidth = blipRadius * 0.2,
         outerCircleRadius = blipRadius - strokeWidth * 0.5,
         innerCircleRadius = outerCircleRadius - strokeWidth; 
@@ -413,6 +449,7 @@ function createRadar(config, structure, entries){
 
     // can be declared only after the radar svg is appended
     let mobileMode = (getSvgDivWidth() < diameter) ? true : false;
+    // let mobileMode = (getSvgDivWidth() < 400) ? true : false;
 
     //#region event fuctions general ****************************************************
     let update = () => {
@@ -631,7 +668,7 @@ function createRadar(config, structure, entries){
             .classed(`radarBubble`, true)
             .attr(`id`, `${radarId}_bubble`)
             .style(`display`, `none`)
-        let fontSize = config.blip.size/2;
+        let fontSize = config.blip.radius;
         selection.append('rect')
             .attr('class', 'background')
             .attr('rx', 4)
@@ -849,7 +886,7 @@ function createRadar(config, structure, entries){
     d3.forceSimulation(radarData.blips)
         .force(`collision`, 
             d3.forceCollide()
-                .radius(config.blip.size/2 + config.blip.margin)
+                .radius(blipSize/2 + config.blip.margin)
                 .strength(0.15))
                 .on(`tick`, ticked);
     //#endregion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
