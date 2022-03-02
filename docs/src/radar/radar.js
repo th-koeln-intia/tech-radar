@@ -346,6 +346,8 @@ function createRadar(config, structure, entries){
         blipSize = Math.max(test, blipMinSize),
         blipRadiusWithPadding = blipSize / 2 + config.segment.padding;
 
+    config.blip.size = blipSize;
+
     radarData.sectors.forEach(sector => {
         sector.segments = sector.segments.map((segment, index) => ({
             ...segment,
@@ -892,7 +894,7 @@ function createRadar(config, structure, entries){
     //#endregion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     update();
-    console.log(radarData);
+    console.log(radarData, config);
 
     
 }

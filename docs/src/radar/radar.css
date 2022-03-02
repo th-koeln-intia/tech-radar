@@ -3,7 +3,7 @@
     --fontFamily: "Arial";
     --borderRadius: 0;
     --lineWidth: 1; 
-    --spacing: 0.5rem;
+    --spacing: 8px;
     --textPadding: 0.25em;
     --dropdownBoxShadow: 0 5px 20px rgba(0,0,0,0.1);
 /* FontSizes */
@@ -309,7 +309,7 @@ fill: var(--secondaryFontColor);
             'radarTitle radarTitle'
             'radarSelection radarSelection'
             'radarBlipLegend radar';
-        grid-template-columns: 0.25fr 0.75fr;
+        grid-template-columns: 0.2fr 0.8fr;
         grid-template-rows: min-content min-content 0fr;
     }    
 }
