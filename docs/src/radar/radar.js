@@ -71,14 +71,14 @@ function createRadar(config, structure, entries){
     let blipMaxRadiusInArea = (blipCount, area) => 
         Math.sqrt(area / (Math.PI * blipCount));
 
-    let calcOuterRadius = (innerRadius, angle, blipCount) => {
+    let calcSegmentOuterRadius = (innerRadius, angle, blipCount) => {
         let blipSpace = occupiedSpaceByBlips(blipCount);
         let angleRatio = calcAngleRatio(angle);
         let squareRootTerm = blipSpace / (Math.PI * angleRatio * fillingRatio) + Math.pow(innerRadius, 2);
         return Math.sqrt(squareRootTerm);
     }
 
-    let calcAngle = (innerRadius, outerRadius, blipCount) => {
+    let calcSegmentAngleSpan = (innerRadius, outerRadius, blipCount) => {
         let blipSpace = occupiedSpaceByBlips(blipCount);
         let denominator = (Math.PI * (Math.pow(outerRadius, 2) - Math.pow(innerRadius, 2)) * fillingRatio);
         return blipSpace / denominator * (2 * Math.PI)
@@ -279,7 +279,7 @@ function createRadar(config, structure, entries){
     radarData.rings.forEach((ring, index) => {
         ring.innerRadius = (index == 0) ? 0 : radarData.rings[index - 1].outerRadius;
         ring.outerRadius = radarData.sectors.reduce((prev, curr) => 
-            Math.max(prev, calcOuterRadius(ring.innerRadius, sectorThickness, curr.segments[index].blips.length))
+            Math.max(prev, calcSegmentOuterRadius(ring.innerRadius, sectorThickness, curr.segments[index].blips.length))
         , 0);
         ring.radiusThickness = ring.outerRadius - ring.innerRadius;
     });
@@ -306,7 +306,7 @@ function createRadar(config, structure, entries){
     // add needed min angle span for each sector
     radarData.sectors.forEach((sector) => {
         sector.angleSpan = sector.segments.reduce((prev, curr) =>             
-            Math.max(prev, calcAngle(curr.innerRadius, curr.outerRadius, curr.blips.length))            
+            Math.max(prev, calcSegmentAngleSpan(curr.innerRadius, curr.outerRadius, curr.blips.length))            
         , 0);
     });
     // add up all sector angle spans
@@ -332,18 +332,18 @@ function createRadar(config, structure, entries){
 
     // ------------------------------------------------------------------------------
     // Blip anpassung
-    let test = radarData.sectors.reduce((prev, curr) => {
-        let x = curr.segments.reduce((prev, curr) => {
+    let sectorMinBilpRadius = radarData.sectors.reduce((prev, curr) => {
+        let segmentMinBilpRadius = curr.segments.reduce((prev, curr) => {
             let area = blipAreaInSegment(curr);
             let radius = blipMaxRadiusInArea(curr.blips.length, area);
-            let diameter = (radius - config.blip.margin) * 2;
-            return Math.min(diameter, prev)
+            let size = (radius - config.blip.margin) * 2;
+            return Math.min(size, prev)
         }, Number.MAX_VALUE)
-        return Math.min(prev, x)
+        return Math.min(prev, segmentMinBilpRadius)
     }, Number.MAX_VALUE);
 
     const 
-        blipSize = Math.max(test, blipMinSize),
+        blipSize = Math.max(sectorMinBilpRadius, blipMinSize),
         blipRadiusWithPadding = blipSize / 2 + config.segment.padding;
 
     config.blip.size = blipSize;
@@ -390,7 +390,7 @@ function createRadar(config, structure, entries){
     let fontSize = blipSize * 0.33,
         blipRadius = blipSize * 0.5,
         strokeWidth = blipRadius * 0.2,
-        outerCircleRadius = blipRadius - strokeWidth * 0.5,
+        outerCircleRadius = blipRadius ,
         innerCircleRadius = outerCircleRadius - strokeWidth; 
     config.blip = ({
         ...config.blip,

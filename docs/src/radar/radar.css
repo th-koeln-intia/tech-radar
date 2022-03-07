@@ -17,7 +17,7 @@
     --radarLegendCardItemText: 14px;
     --radarBlipLegendSector: 14px;
     --radarBlipLegendSegment: 12px;
-    --radarBlipLegendBlip: 10px;
+    --radarBlipLegendBlip: 11px;
 /* Colors */
     --primaryFontColor: #000000;
     --secondaryFontColor: #ffffff;
@@ -309,7 +309,7 @@ fill: var(--secondaryFontColor);
             'radarTitle radarTitle'
             'radarSelection radarSelection'
             'radarBlipLegend radar';
-        grid-template-columns: 0.2fr 0.8fr;
+        grid-template-columns: 0.25fr 0.75fr;
         grid-template-rows: min-content min-content 0fr;
     }    
 }

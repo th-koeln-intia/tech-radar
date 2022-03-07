@@ -5,7 +5,7 @@ radar:
   showAllSectorsText: 'Alle Sektoren'
   legendDropdownText: 'Legende'
   defaultColor: 'rgba(255, 255, 255, 0)'
-  renderResolution: 500
+  renderResolution: 518
 
 sector:
   useColor: false
@@ -21,5 +21,5 @@ segment:
 
 blip:
   size: 34
-  defaultColor: '#8395a7'
-  margin: 2
+  defaultColor: '#7570b3'
+  margin: 4

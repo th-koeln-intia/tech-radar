@@ -24,14 +24,12 @@ rings:
 entryStates:
   legendTitle: 'Zustände'
   list:
-    - name: 'Methode nach Lehrbuch'
-      color: '#10ac84'
-    - name: 'Neu entwickelte/Stark adaptierte Methode'
-      color: '#2e86de'
-    - name: 'Ungetestete Methode'
-      color: '#ff9f43'
-    - name: 'Andere'
-      color: '#ee5253'
+    - name: 'Neu'
+      color: '#1b9e77'
+    - name: 'Zu Testen'
+      color: '#e7298a'
+    - name: 'Alt'
+      color: '#d95f02'
 
 entryMovement:
   legendTitle: 'Bewegung'
