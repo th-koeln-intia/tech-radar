@@ -1,104 +1,182 @@
-- name: 'Hospitation'
-  sectorID: 2
-  ringID: 5
+- name: 'Dummy'
+  sectorID: 1
+  ringID: 0
+  stateID: 0
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 1
+  ringID: 1
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 1
+  ringID: 1
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 1
+  ringID: 1
   stateID: 2
   active: true
-  link: '/intiaRadar_Pages/hospitation.html'
-  moved: -1
-- name: 'Workshops'
-  sectorID: 1
-  ringID: 3
+  link: ''
+  moved: 0
+
+
+
+
+
+
+
+- name: 'Dummy'
+  sectorID: 4
+  ringID: 0
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 4
+  ringID: 2
   stateID: 0
   active: true
-  link: '404.html'
+  link: ''
   moved: 0
-- name: 'Escape Game'
-  sectorID: 2
-  ringID: 4
+- name: 'Dummy'
+  sectorID: 4
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 4
+  ringID: 2
+  stateID: 2
+  active: true
+  link: ''
+  moved: 0
+
+
+
+
+- name: 'Dummy'
+  sectorID: 0
+  ringID: 1
+  stateID: 2
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 0
+  ringID: 1
   stateID: 1
   active: true
-  link: '404.html'
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 0
+  ringID: 1
+  stateID: 0
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 0
+  ringID: 1
+  stateID: 0
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 0
+  ringID: 1
+  stateID: 0
+  active: true
+  link: ''
+  moved: 0
+
+
+
+
+- name: 'Dummy'
+  sectorID: 3
+  ringID: 0
+  stateID: 0
+  active: true
+  link: ''
   moved: 1
-- name: 'Check-In'
-  sectorID: 2
-  ringID: 5
-  stateID: 0
+
+- name: 'Dummy'
+  sectorID: 3
+  ringID: 2
+  stateID: -1
   active: true
-  link: '404.html'
-  moved: 0
-- name: 'Warm-Ups'
-  sectorID: 2
-  ringID: 5
-  stateID: 0
+  link: ''
+  moved: 1
+- name: 'Dummy'
+  sectorID: 3
+  ringID: 2
+  stateID: 1
   active: true
-  link: '404.html'
-  moved: 0
-- name: 'Smiley Feedback'
-  sectorID: 2
-  ringID: 3
-  stateID: 0
+  link: ''
+  moved: 1
+- name: 'Dummy'
+  sectorID: 3
+  ringID: 2
+  stateID: 2
   active: true
-  link: '404.html'
-  moved: 0
-- name: 'Erfindungsmemory'
-  sectorID: 2
-  ringID: 3
-  stateID: 0
+  link: ''
+  moved: 1
+- name: 'Dummy'
+  sectorID: 3
+  ringID: 2
+  stateID: -1
   active: true
-  link: '404.html'
-  moved: 0
-- name: 'Erfindungsskala'
+  link: ''
+  moved: 1
+
+
+
+- name: 'Dummy'
   sectorID: 2
-  ringID: 3
-  stateID: 0
-  active: true
-  link: '404.html'
-  moved: 0
-- name: 'Interviews'
-  sectorID: 2
-  ringID: 4
-  stateID: 0
-  active: true
-  link: '404.html'
-  moved: 0
-- name: 'Stimmt oder Stimmt Nicht'
-  sectorID: 2
-  ringID: 4
-  stateID: 0
-  active: true
-  link: '404.html'
-  moved: 0
-- name: 'Der Superheld'
-  sectorID: 2
-  ringID: 3
-  stateID: 0
-  active: true
-  link: '404.html'
-  moved: 0
-- name: 'Paper Function Mapping'
-  sectorID: 1
   ringID: 2
   stateID: 0
   active: true
-  link: '404.html'
+  link: ''
   moved: 0
-- name: 'Behaviour-Driven Prototyping'
-  sectorID: 1
+- name: 'Dummy'
+  sectorID: 2
   ringID: 2
-  stateID: 0
+  stateID: 1
   active: true
-  link: '404.html'
+  link: ''
   moved: 0
-- name: 'Probe Kit'
-  sectorID: 1
-  ringID: 4
-  stateID: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
   active: true
-  link: '404.html'
+  link: ''
   moved: 0
-
-
-  
-
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: 2
+  active: true
+  link: ''
+  moved: 0
+- name: 'Dummy'
+  sectorID: 2
+  ringID: 2
+  stateID: -1
+  active: true
+  link: ''
+  moved: 0
 
 

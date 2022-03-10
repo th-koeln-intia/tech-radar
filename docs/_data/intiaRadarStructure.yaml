@@ -1,41 +1,35 @@
 sectors:
-  - name: 'Deliver'
+  - name: 'Sektor 1'
     color: '#3498db'
-  - name: 'Develop'
+  - name: 'Sektor 2'
     color: '#e74c3c'
-  - name: 'Discover'
+  - name: 'Sektor 3'
+    color: '#9b59b6'
+  - name: 'Sektor 4'
+    color: '#9b59b6'
+  - name: 'Sektor 5'
     color: '#9b59b6'
  
   
 rings:
   legendTitle: 'Ringe/Segmente'
   list:
-    - name: 'Entscheidungsmacht'
+    - name: 'Ring 1'
       color: '#93c47d'
-    - name: 'teilw. Entscheidungsmacht'
+    - name: 'Ring 2'
       color: '#93d2c2'
-    - name: 'Mitbestimmung'
+    - name: 'Ring 3'
       color: '#fbdb84'
-    - name: 'Einbeziehung'
-      color: '#efafa9'
-    - name: 'Anhörung'
-      color: '#857dc4'
-    - name: 'Information'
-      color: '#efafa9'
-    - name: 'nicht beteiligt'
-      color: '#efafa9'
 
 entryStates:
   legendTitle: 'Zustände'
   list:
-    - name: 'Methode nach Lehrbuch'
-      color: '#10ac84'
-    - name: 'Neu entwickelte/Stark adaptierte Methode'
-      color: '#2e86de'
-    - name: 'Ungetestete Methode'
-      color: '#ff9f43'
-    - name: 'Andere'
-      color: '#ee5253'
+    - name: 'Neu'
+      color: '#1b9e77'
+    - name: 'Zu Testen'
+      color: '#e7298a'
+    - name: 'Alt'
+      color: '#d95f02'
 
 entryMovement:
   legendTitle: 'Bewegung'
